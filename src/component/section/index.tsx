@@ -6,7 +6,7 @@ import Link from 'next/link';
 const WelcomeSection = () => {
   return (
     <div
-      className={`w-full h-full py-11 px-20 bg-[#61C9A8] grid grid-cols-1 md:grid-cols-2 items-center align-middle`}
+      className={`w-full h-full py-11 px-5 text-center md:text-left md:px-20 bg-[#61C9A8] grid grid-cols-1 md:grid-cols-2 items-center align-middle`}
     >
       <div className='m-auto'>
         <h3 className='font-bold text-[32px] text-[#ffffff] mb-8'>

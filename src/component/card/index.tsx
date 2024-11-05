@@ -9,7 +9,7 @@ const Card = () => {
     <div className='mb-12'>
       <div className='text-center my-10'>
         <h1 className='font-bold text-[#000000] text-[40px]'>Pay Bills</h1>
-        <p className='font-bold text-[#000000] text-[24px]'>
+        <p className='font-bold text-[#000000] text-[17px] md:text-[24px]'>
           Electronic vending of Telecom Services
         </p>
       </div>
