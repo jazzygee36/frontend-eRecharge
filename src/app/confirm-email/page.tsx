@@ -1,7 +1,6 @@
 'use client';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 const ConfirmEmail = () => {
@@ -29,6 +28,7 @@ const ConfirmEmail = () => {
         <Button
           title='Reset Password'
           className={'bg-[#FC7A1E] w-full hover:bg-[#485696]'}
+          type={'submit'}
         />
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
