@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   title: string;
-  className: any;
+  className: string;
   type?: any;
 }
 

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Header from '@/component/header';
 import WelcomeSection from '@/component/section';
 import Cards from '@/component/card';

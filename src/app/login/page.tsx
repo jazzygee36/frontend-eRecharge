@@ -92,7 +92,7 @@ const Login = () => {
             </Link>
             <div>
               <p className='text-[#333333] mt-3 text-[13px]'>
-                Don't have an account?{' '}
+                Dont have an account?{' '}
                 <Link href='/register'>
                   <span
                     style={{

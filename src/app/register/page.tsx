@@ -1,6 +1,6 @@
 'use client';
 import Input from '@/component/common/input';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Create from '../../assets/registerIcon.svg';
 import Button from '@/component/common/button';
 import Link from 'next/link';
@@ -43,6 +43,7 @@ const Register = () => {
       setErrors({});
       // Process form data
       console.log('Valid data:', result.data);
+      window.location.href = '/confirm-email';
     }
   };
 
@@ -85,7 +86,7 @@ const Register = () => {
               </p>
             )}
             <Input
-              type='number'
+              type='text'
               placeholder='Phone Number'
               name='phoneNumber'
               value={data.phoneNumber}

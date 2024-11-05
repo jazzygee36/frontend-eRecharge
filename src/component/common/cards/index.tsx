@@ -6,7 +6,7 @@ interface Props {
   title: string;
   description: string;
   bottomText: string;
-  className?: any;
+  className?: string;
   isBottomTextDisabled?: boolean; // New prop to control disabled state
 }
 
