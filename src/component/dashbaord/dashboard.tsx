@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import MonthlyExpenseTable from './table';
 
 const MainDashboard = () => {
   // State to manage the toggle of the switch
@@ -25,7 +27,7 @@ const MainDashboard = () => {
     <div>
       <h2 className='text-2xl font-bold text-left'>Welcome</h2>
 
-      <div className='flex flex-col md:flex-row gap-4 justify-center items-center mt-4'>
+      <div className='flex flex-col md:flex-row gap-4 justify-center items-center mt-4 md:mt-0 p-0 md:p-4'>
         {/* Wallet Balance Box */}
         <div className='shadow-lg bg-[#61C9A8] p-6 rounded-lg w-full md:w-1/2 text-center'>
           <h2 className='text-xl font-bold text-white'>Wallet Balance</h2>
@@ -112,6 +114,7 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
+      <MonthlyExpenseTable />
     </div>
   );
 };
