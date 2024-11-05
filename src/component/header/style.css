@@ -1,0 +1,71 @@
+.sidebar {
+  height: 100%;
+  width: 250px; /* Set the width of the sidebar */
+  position: fixed;
+  top: 0;
+  left: -250px; /* Initially hide the sidebar */
+  background-color: #333;
+  transition: left 0.3s ease;
+  z-index: 1000; /* Ensure it is on top */
+}
+
+.sidebar.open {
+  left: 0; /* Slide in when open */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+}
+
+.nav {
+  padding: 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li {
+  padding: 1rem;
+}
+
+.nav-list a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: block; /* Make the link fill the entire list item */
+}
+
+.nav-list a:hover {
+  background-color: #ff9800; /* Change background on hover */
+}
+
+/* Hamburger Styles */
+.hamburger {
+  display: none; /* Hide on larger screens */
+  flex-direction: column;
+  cursor: pointer;
+  position: absolute;
+  top: 20px; /* Adjust based on your layout */
+  right: 20px; /* Adjust based on your layout */
+}
+
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; /* Show hamburger on smaller screens */
+  }
+}
