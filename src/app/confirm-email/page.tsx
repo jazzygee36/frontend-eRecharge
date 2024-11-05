@@ -32,7 +32,7 @@ const ConfirmEmail = () => {
         />
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
-            Din't receive the email,
+            Dont receive the email,
             <span
               style={{
                 color: '#485696',
