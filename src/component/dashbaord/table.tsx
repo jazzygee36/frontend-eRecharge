@@ -11,7 +11,7 @@ const MonthlyExpenseTable = () => {
 
   return (
     <>
-      <div className='overflow-x-auto mt-4 md:mt-0 p-0 md:p-4'>
+      <div className='overflow-x-auto  mt-4 md:mt-0 p-0 md:p-4'>
         <table className='min-w-full bg-white border border-gray-300'>
           <thead className='bg-gray-200'>
             <tr>
@@ -19,7 +19,7 @@ const MonthlyExpenseTable = () => {
               <th className='py-2 px-4 border-b text-left'>Amount</th>
               <th className='py-2 px-4 border-b text-left'>Type</th>
               <th className='py-2 px-4 border-b text-left'>Description</th>
-              <th className='py-2 px-4 border-b text-left'>Reference</th>
+              <th className='py-2 px-4 border-b text-left '>Reference</th>
               <th className='py-2 px-4 border-b text-left hidden md:block'>
                 Date
               </th>
@@ -32,7 +32,7 @@ const MonthlyExpenseTable = () => {
                 <td className='py-2 px-4 border-b'>{item.name}</td>
                 <td className='py-2 px-4 border-b'>{item.age}</td>
                 <td className='py-2 px-4 border-b'>{item.email}</td>
-                <td className='py-2 px-4 border-b'>{item.email}</td>
+                <td className='py-2 px-4 border-b '>{item.email}</td>
                 <td className='py-2 px-4 border-b hidden md:block'>
                   {item.email}
                 </td>
