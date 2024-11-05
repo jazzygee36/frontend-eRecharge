@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
   title: string;
   className: string;
-  type?: any;
+  type: 'button' | 'submit' | 'reset';
 }
 
 const Button = ({ title, className, type }: Props) => {

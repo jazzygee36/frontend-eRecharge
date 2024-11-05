@@ -22,6 +22,7 @@ const WelcomeSection = () => {
           <Button
             title={'Register with Us'}
             className={'bg-[#485696] mt-4 hover:bg-[green]'}
+            type={'submit'}
           />
         </Link>
       </div>

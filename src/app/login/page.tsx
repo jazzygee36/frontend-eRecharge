@@ -81,7 +81,7 @@ const Login = () => {
             <Button
               type='submit'
               title='Register'
-              className='bg-[#FC7A1E] w-full hover:bg-[#485696] mt-4'
+              className='bg-[#485696] w-full hover:bg-[green] mt-4'
             />
           </form>
           <div className='grid grid-cols-1 md:grid-cols-2 items-center mt-2'>
@@ -91,7 +91,7 @@ const Login = () => {
               </div>
             </Link>
             <div>
-              <p className='text-[#333333] mt-3 text-[13px]'>
+              <p className='text-[#333333] mt-3 text-[13px] '>
                 Dont have an account?{' '}
                 <Link href='/register'>
                   <span

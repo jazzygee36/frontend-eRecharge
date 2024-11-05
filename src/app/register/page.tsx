@@ -1,7 +1,7 @@
 'use client';
 import Input from '@/component/common/input';
 import React, { useState } from 'react';
-import Create from '../../assets/registerIcon.svg';
+import Create from '../../assets/online.webp';
 import Button from '@/component/common/button';
 import Link from 'next/link';
 
@@ -112,14 +112,14 @@ const Register = () => {
             <Button
               type='submit'
               title='Register'
-              className='bg-[#FC7A1E] w-full hover:bg-[#485696]'
+              className='bg-[#485696] w-full hover:bg-[green]'
             />
             <p className='text-[#333333] text-center text-[13px] mt-3'>
               Already have an account?{' '}
               <Link href='/login'>
                 <span
                   style={{
-                    color: '#485696',
+                    color: '#FC7A1E',
                     cursor: 'pointer',
                     fontWeight: 'bold',
                   }}
