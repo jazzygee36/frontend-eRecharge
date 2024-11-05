@@ -26,6 +26,7 @@ const ResetPassword = () => {
         <Button
           title='Reset Password'
           className={'bg-[#FC7A1E] w-full hover:bg-[#485696]'}
+          type={'submit'}
         />
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
