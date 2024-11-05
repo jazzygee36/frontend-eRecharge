@@ -13,10 +13,10 @@ const ConfirmEmail = () => {
 
   return (
     <div className='flex items-center justify-center h-screen'>
-      <div className='w-[30%] rounded-lg py-10 px-10 shadow-lg'>
+      <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
         <h1 className='text-center text-[30px] font-bold'>Confirm Email</h1>
         <p className='text-[#333333] mt-3 text-[13px] text-center'>
-          Check your inbox
+          Please check your email to complete the verification process.
         </p>
         <Input
           name='phone number'
@@ -32,7 +32,7 @@ const ConfirmEmail = () => {
         />
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
-            Dont receive the email,
+            Didnt receive the email?
             <span
               style={{
                 color: '#485696',

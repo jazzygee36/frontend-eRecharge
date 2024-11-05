@@ -14,7 +14,7 @@ const ResetPassword = () => {
 
   return (
     <div className='flex items-center justify-center h-screen'>
-      <div className='w-[30%] rounded-lg py-10 px-10 shadow-lg'>
+      <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
         <h1 className='text-center text-[30px] font-bold'>Reset Password</h1>
         <Input
           name='phone number'
