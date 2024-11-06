@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import FundModal from './fundModal';
 
 const DashboardCards = () => {
   // State to manage the toggle of the switch
@@ -7,6 +8,10 @@ const DashboardCards = () => {
   const [isToggledExpense, setIsToggledExpense] = useState(false);
   const [walletBalance, setWalletBalance] = useState(false);
   const [monthlyExpenseBalance, setMonthlyExpenseBalance] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   // Function to handle toggle change
   const handleToggleWallet = () => {
@@ -24,7 +29,8 @@ const DashboardCards = () => {
   };
   return (
     <div>
-      <h2 className='text-2xl font-bold text-left'>Welcome</h2>
+      {/* <h2 className='text-2xl font-bold text-left'>Welcome</h2> */}
+      <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
 
       <div className='flex flex-col md:flex-row gap-4 justify-center items-center mt-4 md:mt-0 p-0 md:p-4'>
         {/* Wallet Balance Box */}
@@ -36,7 +42,10 @@ const DashboardCards = () => {
             <p className='text-2xl font-semibold mt-2 text-white'>******</p>
           )}
           <div className='flex justify-between items-center mt-4'>
-            <button className='mt-4 bg-[green] text-white px-4 py-2 rounded-lg hover:bg-blue-600'>
+            <button
+              onClick={openModal}
+              className='mt-4 bg-[green] text-white px-4 py-2 rounded-lg hover:bg-blue-600'
+            >
               Fund Wallet
             </button>
 
@@ -113,6 +122,7 @@ const DashboardCards = () => {
           </div>
         </div>
       </div>
+      <FundModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

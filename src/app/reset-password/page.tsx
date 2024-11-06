@@ -15,7 +15,7 @@ const ResetPassword = () => {
   return (
     <div className='flex items-center justify-center h-screen'>
       <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
-        <h2 className='text-[12px] font-bold  mb-5 lg:mt-0 block md:hidden'>
+        <h2 className='text-[12px] font-bold text-center mb-5 lg:mt-0 block md:hidden'>
           <span style={{ color: 'green', fontWeight: 700 }}>E-Recharge</span>
         </h2>
         <h1 className='text-center text-[30px] font-bold'>Reset Password</h1>

@@ -43,7 +43,7 @@ const Register = () => {
       setErrors({});
       // Process form data
       console.log('Valid data:', result.data);
-      window.location.href = '/confirm-email';
+      ation.href = '/confirm-email';
     }
   };
 
@@ -56,6 +56,9 @@ const Register = () => {
     <div className='flex items-center justify-center min-h-screen'>
       <div className='grid grid-cols-1 md:grid-cols-2 items-center w-full'>
         <img src={Create.src} alt='create' className='m-auto hidden md:block' />
+        <h2 className='text-xl font-bold text-[green] text-center'>
+          e-Recharge
+        </h2>
         <div className='w-[80%] lg:w-[55%] m-auto'>
           <h2 className='text-[30px] font-bold text-center md:text-left mt-10 lg:mt-0'>
             Create an account
