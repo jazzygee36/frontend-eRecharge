@@ -43,7 +43,6 @@ const Register = () => {
       setErrors({});
       // Process form data
       console.log('Valid data:', result.data);
-      ation.href = '/confirm-email';
     }
   };
 
