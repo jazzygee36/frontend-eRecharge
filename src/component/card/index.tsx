@@ -14,7 +14,7 @@ const Card = () => {
         </p>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6  justify-items-center items-center max-w-6xl mx-auto'>
+      <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1 md:gap-6 gap-y-6 md:gap-y-0  justify-items-center items-center  mx-auto'>
         <Cards
           img={Buy.src}
           title={'Buy Data Bundle'}

@@ -1,5 +1,5 @@
 'use client';
-import MainDashboard from '@/component/dashbaord/dashboard';
+import MainDashboard from '@/component/dashbaord/index';
 import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 

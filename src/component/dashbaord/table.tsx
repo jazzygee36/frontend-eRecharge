@@ -6,40 +6,40 @@ const MonthlyExpenseTable = () => {
     {
       id: 1,
       amount: 'John Doe',
-      type: 28,
-      description: 'john@example.com',
-      reference: 'john@example.com',
+      type: 'Cable tv',
+      description: 'recharge',
+      reference: 'com',
       date: '2024-01-01',
     },
     {
       id: 2,
       amount: 'Jane Smith',
-      type: 34,
-      description: 'jane@example.com',
-      reference: 'jane@example.com',
+      type: 'Rechard card',
+      description: 'For my mobil',
+      reference: 'jane@example',
       date: '2024-02-01',
     },
     {
       id: 3,
       amount: 'Alice Johnson',
-      type: 22,
-      description: 'alice@example.com',
-      reference: 'alice@example.com',
+      type: 'income',
+      description: 'Gotv',
+      reference: 'alice@example',
       date: '2024-03-01',
     },
     {
       id: 4,
       amount: 'Bob Brown',
-      type: 45,
-      description: 'bob@example.com',
-      reference: 'bob@example.com',
+      type: 'Income',
+      description: 'Someone',
+      reference: 'bob@example',
       date: '2024-04-01',
     },
   ];
 
   return (
     <>
-      <div className='hidden overflow-x-auto mt-4 md:mt-0 p-0 md:p-4'>
+      <div className=' hidden md:block overflow-x-auto mt-4 md:mt-0 p-0 md:p-4'>
         <table className='min-w-full bg-white border border-gray-300'>
           <thead className='bg-gray-200'>
             <tr>
@@ -49,9 +49,7 @@ const MonthlyExpenseTable = () => {
               <th className='py-2 px-4 border-b text-left'>Description</th>
               <th className='py-2 px-4 border-b text-left '>Reference</th>
               {/* Hide Date on mobile, show on medium screens and larger */}
-              <th className='py-2 px-4 border-b text-left hidden sm:block'>
-                Date
-              </th>
+              <th className='py-2 px-4 border-b text-left '>Date</th>
             </tr>
           </thead>
           <tbody>

@@ -1,8 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import MonthlyExpenseTable from './table';
 
-const MainDashboard = () => {
+const DashboardCards = () => {
   // State to manage the toggle of the switch
   const [isToggledWallet, setIsToggledWallet] = useState(false);
   const [isToggledExpense, setIsToggledExpense] = useState(false);
@@ -114,9 +113,8 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
-      <MonthlyExpenseTable />
     </div>
   );
 };
 
-export default MainDashboard;
+export default DashboardCards;

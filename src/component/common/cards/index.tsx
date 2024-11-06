@@ -22,10 +22,10 @@ const Cards = ({
 }: Props) => {
   return (
     <div
-      className={`h-full rounded-b-3xl bg-[#EBEEF1] w-[221px] pb-4 ${className}`}
+      className={`h-full rounded-b-3xl bg-[#EBEEF1] w-[95%] md:w-[221px]  pb-4 ${className}`}
     >
       <img src={img} alt={imgAlt} className='w-full h-auto' />
-      <div className='text-center px-[27px]'>
+      <div className='text-center px-[5%] md:px-[27px]'>
         <h2 className='font-bold'>{title}</h2>
         <p className='text-[16px] my-2'>{description}</p>
         {isBottomTextDisabled ? (
