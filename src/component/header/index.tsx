@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Button from '../common/button';
+
 import './style.css'; // Import CSS for styling
 
 const Header: React.FC = () => {

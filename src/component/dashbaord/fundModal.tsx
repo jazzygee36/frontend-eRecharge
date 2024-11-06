@@ -10,7 +10,7 @@ interface ModalProps {
 }
 
 const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const [amount, setAmount] = useState<any>('');
+  const [amount, setAmount] = useState<number>(0);
   const [showPaystack, setShowPaystack] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
 
@@ -29,7 +29,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handlePaystackSuccessAction = (reference: any) => {
+  const handlePaystackSuccessAction = () => {
     alert('Payment Successful!');
     setShowPaystack(false);
     onClose();
