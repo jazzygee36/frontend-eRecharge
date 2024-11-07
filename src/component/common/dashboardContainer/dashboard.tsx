@@ -62,17 +62,30 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link href='#about' className='block p-2' onClick={closeSidebar}>
+              <Link
+                href='/airtime'
+                className='block p-2'
+                onClick={closeSidebar}
+              >
                 Buy Airtime
               </Link>
             </li>
             <li>
               <Link
-                href='#services'
+                href='/buy-data'
                 className='block p-2'
                 onClick={closeSidebar}
               >
                 Buy Data
+              </Link>
+            </li>
+            <li>
+              <Link
+                href='/buy-electricity'
+                className='block p-2'
+                onClick={closeSidebar}
+              >
+                Electricity
               </Link>
             </li>
             <li>

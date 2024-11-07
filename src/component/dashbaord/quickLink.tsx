@@ -1,8 +1,10 @@
+'use client';
 import Phone from '@/assets/icons/phone';
 import QRCODE from '@/assets/icons/qrCode';
 import Settings from '@/assets/icons/settings';
 import Card from '@/assets/icons/card';
 import ThankYou from '../../assets/thank-you.webp';
+import Link from 'next/link';
 
 const QuickLinks = () => {
   return (
@@ -14,38 +16,50 @@ const QuickLinks = () => {
       <div className='flex justify-between  m-auto items-center w-[90%]  align-middle mt-4'>
         <div className='flex flex-col gap-1 justify-center items-center'>
           <Settings />
+
           <p>Settings</p>
+          <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>
-        <div className='flex flex-col gap-1 justify-center items-center'>
-          <Phone />
-          <p>Airtime</p>
-        </div>
-        <div className='flex flex-col gap-1 justify-center items-center'>
-          <QRCODE />
-          <p>QR Payment</p>
-        </div>{' '}
-        <div className='flex flex-col gap-1 justify-center items-center'>
-          <Card />
-          <p>Cards</p>
-        </div>
+        <Link href='/airtime'>
+          <div className='flex flex-col gap-1 justify-center items-center'>
+            <Phone />
+            <p>Airtime</p>
+          </div>
+        </Link>
+        <Link href='/buy-data'>
+          <div className='flex flex-col gap-1 justify-center items-center'>
+            <QRCODE />
+            <p>Data</p>
+          </div>{' '}
+        </Link>
+        <Link href='/buy-electricity'>
+          <div className='flex flex-col gap-1 justify-center items-center'>
+            <Card />
+            <p>Electricity</p>
+          </div>
+        </Link>
       </div>
       <hr className='mt-5 mb-5' />
       <div className='flex justify-between  m-auto items-center w-[90%]  align-middle mt-6'>
         <div className='flex flex-col gap-1 justify-center items-center'>
           <QRCODE />
           <p>QR Payment</p>
+          <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>{' '}
         <div className='flex flex-col gap-1 justify-center items-center'>
           <Card />
-          <p>Cards</p>
+          <p>Cable Tv</p>
+          <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>
         <div className='flex flex-col gap-1 justify-center items-center'>
           <Phone />
           <p>Airtime</p>
+          <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>
         <div className='flex flex-col gap-1 justify-center items-center'>
           <Settings />
           <p>Settings</p>
+          <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>
       </div>
       <hr className='mt-5 mb-5' />
