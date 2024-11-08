@@ -16,6 +16,8 @@ import { useState } from 'react';
 const Airtime = () => {
   // State to track the selected image
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [telPhone, setTelPhone] = useState('');
+  const [amount, setAmount] = useState('');
 
   const handleImageClick = (image: string) => {
     // Toggle checkbox when a new image is clicked
@@ -185,18 +187,22 @@ const Airtime = () => {
 
         <p className='mt-6 font-semibold'>Mobile Number</p>
         <Input
-          type={'text'}
+          type={'tel'}
           placeholder={'Mobile number'}
-          value={''}
-          onChange={() => {}}
+          value={telPhone}
+          onChange={(e) => {
+            setTelPhone(e.target.value.replace(/[^0-9]/g, ''));
+          }}
         />
 
         <p className='mt-4 font-semibold'>Amount</p>
         <Input
           type={'text'}
           placeholder={'Amount'}
-          value={''}
-          onChange={() => {}}
+          value={amount}
+          onChange={(e) => {
+            setAmount(e.target.value.replace(/[^0-9]/g, ''));
+          }}
         />
         <Button
           title={'Continue'}
