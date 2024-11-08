@@ -32,27 +32,27 @@ const Airtime = () => {
               src={MNineMobile.src}
               alt='mtn'
               width={300}
-              className='cursor-pointer rounded-md'
+              className='cursor-pointer rounded-lg'
             />
 
             <img
               src={Airtel.src}
               alt='mtn'
               width={300}
-              className='cursor-pointer'
+              className='cursor-pointer rounded-lg'
             />
             <img
               src={MTN.src}
               alt='mtn'
               width={270}
-              className='cursor-pointer'
+              className='cursor-pointer rounded-lg'
             />
 
             <img
               src={Glo.src}
               alt='mtn'
               width={300}
-              className='cursor-pointer'
+              className='cursor-pointer rounded-lg'
             />
           </div>
         </div>
@@ -61,28 +61,28 @@ const Airtime = () => {
             <img
               src={NinePhone.src}
               alt='mtn'
-              width={150}
-              className='cursor-pointer'
+              width={130}
+              className='cursor-pointer rounded-lg'
             />
 
             <img
               src={AirtelPhone.src}
               alt='mtn'
-              width={150}
-              className='cursor-pointer'
+              width={130}
+              className='cursor-pointer rounded-lg'
             />
             <img
               src={MTNPhone.src}
               alt='mtn'
-              width={150}
-              className='cursor-pointer'
+              width={130}
+              className='cursor-pointer  rounded-lg'
             />
 
             <img
               src={GloPhone.src}
               alt='mtn'
-              width={150}
-              className='cursor-pointer'
+              width={130}
+              className='cursor-pointer  rounded-lg'
             />
           </div>
         </div>
