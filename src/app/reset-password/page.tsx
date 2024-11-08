@@ -1,5 +1,5 @@
 'use client';
-import { requestPasswordReset, resetPassword } from '@/api/auth';
+import { resetPassword } from '@/api/auth';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
 import Toast from '@/component/common/toast/toast';
