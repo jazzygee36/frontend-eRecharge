@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logIn } from '@/api/auth';
 import { QUERIES } from '@/utils';
+import Toast from '@/component/common/toast/toast';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username should be at least 3 characters long'),
@@ -117,11 +118,20 @@ const Login = () => {
             )}
 
             <Button
+              title={isPending ? 'Login...' : 'Login'}
+              disabled={isPending}
               type='submit'
-              title='Register'
+           
               className='bg-[#485696] w-full hover:bg-[green] mt-4'
             />
           </form>
+          {toastMessage && (
+            <Toast
+              message={toastMessage.message}
+              type={toastMessage.type}
+              onClose={() => setToastMessage(null)}
+            />
+          )}
           <div className='grid grid-cols-1 md:grid-cols-2 items-center mt-2'>
             <Link href={'/reset-password'}>
               <div className='font-medium text-[#FC7A1E] text-[13px]'>

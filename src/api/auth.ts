@@ -17,6 +17,14 @@ interface Login {
   access_token?: string;
 }
 
+interface RequestPwdReset {
+  email: string;
+  newPassword: string;
+}
+
+interface ResetPassword {
+  password: string;
+}
 export interface User {
   username: string;
 
@@ -41,6 +49,22 @@ export const signUp = async (body: Signup) => {
 
 export const logIn = async (body: Login) => {
   const { data } = await apiClient.post(QUERIES.LOGIN, body);
+
+  postToLocalStorage(data.access_token ?? '');
+
+  return data;
+};
+
+export const requestPasswordReset = async (body: RequestPwdReset) => {
+  const { data } = await apiClient.post(QUERIES.REQUESTPASSWORDRESET, body);
+
+  postToLocalStorage(data.access_token ?? '');
+
+  return data;
+};
+
+export const resetPassword = async (body: ResetPassword) => {
+  const { data } = await apiClient.post(QUERIES.RESETPASSWORD, body);
 
   postToLocalStorage(data.access_token ?? '');
 

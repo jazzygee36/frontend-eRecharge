@@ -12,13 +12,13 @@ export const apiClient = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${getFromLocalStorage('token')}`,
   },
 });
 
+// Interceptor to dynamically set the Authorization header
 apiClient.interceptors.request.use(
   (config) => {
-    const token = getFromLocalStorage('token');
+    const token = getFromLocalStorage('token'); // Get token before each request
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

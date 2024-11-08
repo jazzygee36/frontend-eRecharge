@@ -1,5 +1,5 @@
 'use client';
-import { requestPasswordReset, resetPassword } from '@/api/auth';
+import { requestPasswordReset } from '@/api/auth';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
 import Toast from '@/component/common/toast/toast';
@@ -10,8 +10,8 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  password: z.string().min(3, 'Password required'),
-  confirmPwd: z.string().min(3, 'Password required'),
+  email: z.string().min(3, 'Email required'),
+  newPassword: z.string().min(6, 'New Password required'),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -21,18 +21,24 @@ const ResetPassword = () => {
 
   // Add state to hold the phone number
 
-  const [data, setData] = useState<FormData>({ password: '', confirmPwd: '' });
+  const [data, setData] = useState<FormData>({ email: '', newPassword: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [toastMessage, setToastMessage] = useState<{
     message: string;
     type: 'success' | 'error';
   } | null>(null);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   const { mutate, isPending } = useMutation({
-    mutationFn: resetPassword,
+    mutationFn: requestPasswordReset,
     onSuccess: (data: any) => {
       const successMessage =
-        data?.response?.data?.message || 'Your password has been reset';
+        data?.response?.data?.message ||
+        'A link has been sent to you email for password reset';
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -42,11 +48,11 @@ const ResetPassword = () => {
       });
       // Additional logic for post-registration
 
-      window.location.href = '/login';
+      window.location.href = '/confirm-email';
     },
     onError: (error: any) => {
       const errorMessage =
-        error?.response?.data?.message || 'Error during password change';
+        error?.response?.data?.message || 'Error password change';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },
@@ -72,41 +78,43 @@ const ResetPassword = () => {
     // If validation passes, call the mutation
     mutate(parsedData.data);
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({ ...prevData, [name]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: '' })); // Clear field-specific errors on input change
-  };
+
   return (
     <div className='flex items-center justify-center h-screen'>
       <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
         <h2 className='text-[12px] font-bold text-center mb-5 lg:mt-0 block md:hidden'>
           <span style={{ color: 'green', fontWeight: 700 }}>E-Recharge</span>
         </h2>
-        <h1 className='text-center text-[30px] font-bold'>Reset Password</h1>
+        <h1 className='text-center text-[30px] font-bold'>
+          Request Reset Password
+        </h1>
         <form onSubmit={handleSubmit}>
           <Input
-            name='password'
+            name='email'
             type='text'
-            placeholder='Enter new password'
-            value={data.password} // Use the state variable here
+            placeholder='Enter Email'
+            value={data.email} // Use the state variable here
             onChange={handleChange} // Update the state when input changes
           />
-          {errors.password && (
-            <p className='text-red-500 text-[13px]'>{errors.password}</p>
+          {errors.email && (
+            <p className='text-red-500 text-[13px] text-center mb-3'>
+              {errors.email}
+            </p>
           )}
           <Input
-            name='confirmPwd'
+            name='newPassword'
             type='text'
-            placeholder='Confirm new password'
-            value={data.confirmPwd} // Use the state variable here
+            placeholder='Enter New Password'
+            value={data.newPassword} // Use the state variable here
             onChange={handleChange} // Update the state when input changes
           />
-          {errors.confirmPwd && (
-            <p className='text-red-500 text-[13px]'>{errors.confirmPwd}</p>
+          {errors.newPassword && (
+            <p className='text-red-500 text-[13px] text-center mb-3'>
+              {errors.newPassword}
+            </p>
           )}
           <Button
-            title={isPending ? 'Reseting Password...' : 'Reset Password'}
+            title={isPending ? 'Reseting Reset Password...' : 'Reset Password'}
             disabled={isPending}
             className={'bg-[#FC7A1E] w-full hover:bg-[#485696]'}
             type={'submit'}

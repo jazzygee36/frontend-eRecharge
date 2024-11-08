@@ -38,6 +38,7 @@ const Register = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: signUp,
     onSuccess: (data: any) => {
+      console.log(data, 'response');
       const successMessage =
         data?.response?.data?.message || 'Registered Successfully';
       setToastMessage({
@@ -48,7 +49,11 @@ const Register = () => {
         queryKey: [QUERIES.ME],
       });
       // Additional logic for post-registration
-      localStorage.setItem('email', data.email);
+      const token = data?.response.data.token;
+      if (token) {
+        localStorage.setItem('token', token); // This stores the token
+      }
+
       window.location.href = '/confirm-email';
     },
     onError: (error: any) => {
@@ -150,8 +155,8 @@ const Register = () => {
             <Button
               type='submit'
               title={isPending ? 'Registering...' : 'Register'}
-              className='bg-[#485696] w-full hover:bg-[green]'
               disabled={isPending}
+              className='bg-[#485696] w-full hover:bg-[green]'
             />
             <p className='text-[#333333] text-center text-[13px] mt-3'>
               Already have an account?{' '}
