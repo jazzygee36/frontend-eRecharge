@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { signUp } from '@/api/auth';
 import Toast from '@/component/common/toast/toast';
 import { QUERIES } from '@/utils';
+import { AxiosError } from 'axios';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username should be at least 3 characters long'),
@@ -39,7 +40,8 @@ const Register = () => {
     mutationFn: signUp,
     onSuccess: (data: unknown) => {
       const successMessage =
-        (data as any)?.response?.data?.message || 'Registered Successfully';
+        (data as { response?: { data?: { message: string } } })?.response?.data
+          ?.message || 'Registered Successfully';
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -47,13 +49,13 @@ const Register = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERIES.ME],
       });
-      // Additional logic for post-registration
+      // Additional logic for post-registratio
 
       window.location.href = '/confirm-email';
     },
-    onError: (error: unknown) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       const errorMessage =
-        (error as any)?.response?.data?.message || 'Error during registration';
+        error?.response?.data?.message || 'Error during registration';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },

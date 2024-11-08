@@ -5,7 +5,7 @@ import Create from '../../assets/registerIcon.svg';
 import Button from '@/component/common/button';
 import Link from 'next/link';
 
-import { unknown, z } from 'zod';
+import { z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logIn } from '@/api/auth';
 import { QUERIES } from '@/utils';
@@ -33,11 +33,13 @@ const Login = () => {
     mutationFn: logIn,
     onSuccess: (data: unknown) => {
       const successMessage =
-        (data as any)?.response?.data?.message || 'Login Successful';
+        (data as { response?: { data?: { message: string } } })?.response?.data
+          ?.message || 'Login Successful';
       setToastMessage({
         message: successMessage,
         type: 'success',
       });
+
       queryClient.invalidateQueries({
         queryKey: [QUERIES.ME],
       });
@@ -45,9 +47,9 @@ const Login = () => {
 
       window.location.href = '/dashboard';
     },
-    onError: (error: unknown) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       const errorMessage =
-        (error as any)?.response?.data?.message || 'Error during login';
+        error?.response?.data?.message || 'Error during login';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },

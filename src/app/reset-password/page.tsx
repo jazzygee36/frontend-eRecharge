@@ -5,6 +5,7 @@ import Input from '@/component/common/input';
 import Toast from '@/component/common/toast/toast';
 import { QUERIES } from '@/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { z } from 'zod';
@@ -32,12 +33,13 @@ const ResetPassword = () => {
     mutationFn: resetPassword,
     onSuccess: (data: unknown) => {
       const successMessage =
-        (data as any)?.response?.data?.message ||
-        'Your password has been reset';
+        (data as { response?: { data?: { message: string } } })?.response?.data
+          ?.message || 'Your password has been reset';
       setToastMessage({
         message: successMessage,
         type: 'success',
       });
+
       queryClient.invalidateQueries({
         queryKey: [QUERIES.ME],
       });
@@ -45,10 +47,9 @@ const ResetPassword = () => {
 
       window.location.href = '/login';
     },
-    onError: (error: unknown) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       const errorMessage =
-        (error as any)?.response?.data?.message ||
-        'Error during password change';
+        error?.response?.data?.message || 'Error during password change';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },
