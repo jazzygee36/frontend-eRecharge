@@ -23,7 +23,8 @@ const ConfirmEmail = () => {
         </h2>
         <h1 className='text-center text-[30px] font-bold'>Confirm Email</h1>
         <p className='text-[#333333] mt-3 text-[13px] text-center'>
-          Please check your email to complete the verification process.
+          We sent you a verification link to the email address you provided.
+          Click on the link to confirm that your email is real.
         </p>
         <Input
           name=''
