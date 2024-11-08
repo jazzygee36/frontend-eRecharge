@@ -30,9 +30,10 @@ const ResetPassword = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: resetPassword,
-    onSuccess: (data: any) => {
+    onSuccess: (data: unknown) => {
       const successMessage =
-        data?.response?.data?.message || 'Your password has been reset';
+        (data as any)?.response?.data?.message ||
+        'Your password has been reset';
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -44,9 +45,10 @@ const ResetPassword = () => {
 
       window.location.href = '/login';
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       const errorMessage =
-        error?.response?.data?.message || 'Error during password change';
+        (error as any)?.response?.data?.message ||
+        'Error during password change';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },

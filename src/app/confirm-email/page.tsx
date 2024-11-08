@@ -1,5 +1,5 @@
 'use client';
-import Button from '@/component/common/button';
+
 import Input from '@/component/common/input';
 import React, { useState, useEffect } from 'react';
 
@@ -35,7 +35,7 @@ const ConfirmEmail = () => {
 
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
-            Didn't receive the email?
+            Didnt receive the email?
             <span
               style={{
                 color: '#485696',

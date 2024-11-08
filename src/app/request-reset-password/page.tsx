@@ -35,9 +35,9 @@ const ResetPassword = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: requestPasswordReset,
-    onSuccess: (data: any) => {
+    onSuccess: (data: unknown) => {
       const successMessage =
-        data?.response?.data?.message ||
+        (data as any)?.response?.data?.message ||
         'A link has been sent to you email for password reset';
       setToastMessage({
         message: successMessage,
@@ -50,9 +50,9 @@ const ResetPassword = () => {
 
       window.location.href = '/confirm-email';
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       const errorMessage =
-        error?.response?.data?.message || 'Error password change';
+        (error as any)?.response?.data?.message || 'Error password change';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },

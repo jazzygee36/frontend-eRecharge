@@ -37,10 +37,9 @@ const Register = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: signUp,
-    onSuccess: (data: any) => {
-      console.log(data, 'response');
+    onSuccess: (data: unknown) => {
       const successMessage =
-        data?.response?.data?.message || 'Registered Successfully';
+        (data as any)?.response?.data?.message || 'Registered Successfully';
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -49,16 +48,12 @@ const Register = () => {
         queryKey: [QUERIES.ME],
       });
       // Additional logic for post-registration
-      const token = data?.response.data.token;
-      if (token) {
-        localStorage.setItem('token', token); // This stores the token
-      }
 
       window.location.href = '/confirm-email';
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       const errorMessage =
-        error?.response?.data?.message || 'Error during registration';
+        (error as any)?.response?.data?.message || 'Error during registration';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },

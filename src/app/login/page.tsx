@@ -5,11 +5,12 @@ import Create from '../../assets/registerIcon.svg';
 import Button from '@/component/common/button';
 import Link from 'next/link';
 
-import { z } from 'zod';
+import { unknown, z } from 'zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logIn } from '@/api/auth';
 import { QUERIES } from '@/utils';
 import Toast from '@/component/common/toast/toast';
+import { AxiosError } from 'axios';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username should be at least 3 characters long'),
@@ -30,9 +31,9 @@ const Login = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: logIn,
-    onSuccess: (data: any) => {
+    onSuccess: (data: unknown) => {
       const successMessage =
-        data?.response?.data?.message || 'Login Successful';
+        (data as any)?.response?.data?.message || 'Login Successful';
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -44,9 +45,9 @@ const Login = () => {
 
       window.location.href = '/dashboard';
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       const errorMessage =
-        error?.response?.data?.message || 'Error during login';
+        (error as any)?.response?.data?.message || 'Error during login';
       setToastMessage({ message: errorMessage, type: 'error' });
       console.log(error);
     },
@@ -121,7 +122,6 @@ const Login = () => {
               title={isPending ? 'Login...' : 'Login'}
               disabled={isPending}
               type='submit'
-           
               className='bg-[#485696] w-full hover:bg-[green] mt-4'
             />
           </form>
