@@ -2,6 +2,7 @@
 import MainDashboard from '@/component/dashbaord/index';
 import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
+import Button from '../button';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,11 @@ const Sidebar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    window.location.href = '/login';
+  };
 
   return (
     <div className='flex h-screen relative'>
@@ -97,6 +103,12 @@ const Sidebar = () => {
                 Cable Tv
               </Link>
             </li>
+            <Button
+              title={'LogOut'}
+              className={'w-full bg-[red]'}
+              type={'button'}
+              onClick={handleLogOut}
+            />
           </ul>
         </div>
       </div>

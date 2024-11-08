@@ -32,7 +32,7 @@ const Airtime = () => {
               src={MNineMobile.src}
               alt='mtn'
               width={300}
-              className='cursor-pointer'
+              className='cursor-pointer rounded-md'
             />
 
             <img

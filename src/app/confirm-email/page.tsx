@@ -1,15 +1,19 @@
 'use client';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ConfirmEmail = () => {
-  // Add state to hold the phone number
+  // Add state to hold the email
   const [email, setEmail] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value); // Update the state with the input value
-  };
+  useEffect(() => {
+    // Retrieve the email from localStorage when the component mounts
+    const savedEmail = localStorage.getItem('userEmail'); // Replace 'userEmail' with the actual key used in localStorage
+    if (savedEmail) {
+      setEmail(savedEmail); // Set the state with the value from localStorage
+    }
+  }, []);
 
   return (
     <div className='flex items-center justify-center h-screen'>
@@ -22,20 +26,16 @@ const ConfirmEmail = () => {
           Please check your email to complete the verification process.
         </p>
         <Input
-          name='phone number'
+          name=''
           type='text'
           placeholder='Enter Email'
           value={email} // Use the state variable here
-          onChange={handleChange} // Update the state when input changes
+          readOnly={true}
         />
-        <Button
-          title='Reset Password'
-          className={'bg-[#FC7A1E] w-full hover:bg-[#485696]'}
-          type={'submit'}
-        />
+
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
-            Didnt receive the email?
+            Didn't receive the email?
             <span
               style={{
                 color: '#485696',

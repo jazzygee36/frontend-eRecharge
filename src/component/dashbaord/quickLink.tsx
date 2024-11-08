@@ -53,7 +53,7 @@ const QuickLinks = () => {
         </div>
         <div className='flex flex-col gap-1 justify-center items-center'>
           <Phone />
-          <p>Airtime</p>
+          <p>Profile</p>
           <p className='text-[red] text-[8px] -mt-2 '>Coming soon</p>
         </div>
         <div className='flex flex-col gap-1 justify-center items-center'>

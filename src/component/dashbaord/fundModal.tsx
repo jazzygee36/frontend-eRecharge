@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Button from '../common/button';
 import Input from '../common/input';
 import Toast from '../common/toast/toast';
+import axios from 'axios';
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,10 +30,27 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handlePaystackSuccessAction = () => {
-    alert('Payment Successful!');
-    setShowPaystack(false);
-    onClose();
+  // Update this to extract reference from the object
+  const handlePaystackSuccessAction = async (data: { reference: string }) => {
+    const reference = data.reference; // Extract reference from the object
+    console.log('Paystack callback triggered', reference);
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/verify-payment',
+        {
+          amount,
+          reference, // Send the reference directly to the API
+        }
+      );
+      console.log(
+        'Payment recorded successfully',
+        response.data,
+        'Payment recorded '
+      );
+      // onClose();
+    } catch (error) {
+      console.log('Error recording payment:', error);
+    }
   };
 
   const handlePaystackCloseAction = () => {
@@ -40,23 +58,45 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
   const loadPaystackScript = () => {
+    if (window.PaystackPop) {
+      try {
+        const handler = window.PaystackPop.setup({
+          key: 'pk_test_bb303c70de3d313ccf557c37b226540818e7fc03',
+          email: 'user@example.com',
+          amount: amount * 100,
+          ref: new Date().getTime().toString(),
+          callback: (data: { reference: string }) =>
+            handlePaystackSuccessAction(data), // Pass the object to the callback
+          onClose: handlePaystackCloseAction,
+        });
+        handler.openIframe();
+      } catch (error) {
+        console.log('Error initializing Paystack:', error);
+      }
+    } else {
+      console.log('Paystack script is not loaded.');
+    }
+  };
+
+  useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://js.paystack.co/v1/inline.js';
     script.async = true;
+
     script.onload = () => {
-      // Paystack script has been loaded, initialize Paystack button here
-      const handler = window.PaystackPop.setup({
-        key: 'pk_test_bb303c70de3d313ccf557c37b226540818e7fc03',
-        email: 'user@example.com',
-        amount: amount * 100, // Amount in kobo
-        ref: new Date().getTime().toString(),
-        callback: handlePaystackSuccessAction,
-        onClose: handlePaystackCloseAction,
-      });
-      handler.openIframe(); // Show Paystack modal
+      console.log('Paystack script loaded successfully');
     };
+
+    script.onerror = () => {
+      console.log('Error loading Paystack script');
+    };
+
     document.body.appendChild(script);
-  };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     if (showPaystack) {

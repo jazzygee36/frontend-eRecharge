@@ -6,6 +6,9 @@ import Button from '@/component/common/button';
 import Link from 'next/link';
 
 import { z } from 'zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { logIn } from '@/api/auth';
+import { QUERIES } from '@/utils';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username should be at least 3 characters long'),
@@ -15,28 +18,58 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const Login = () => {
+  const queryClient = useQueryClient();
+
   const [data, setData] = useState<FormData>({ username: '', password: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [toastMessage, setToastMessage] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: logIn,
+    onSuccess: (data: any) => {
+      const successMessage =
+        data?.response?.data?.message || 'Login Successful';
+      setToastMessage({
+        message: successMessage,
+        type: 'success',
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERIES.ME],
+      });
+      // Additional logic for post-registration
+
+      window.location.href = '/dashboard';
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error?.response?.data?.message || 'Error during login';
+      setToastMessage({ message: errorMessage, type: 'error' });
+      console.log(error);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate data
-    const result = formSchema.safeParse(data);
-
-    if (!result.success) {
+    // Validate form data
+    const parsedData = formSchema.safeParse(data);
+    if (!parsedData.success) {
+      // Collect validation errors
       const fieldErrors: { [key: string]: string } = {};
-      result.error.errors.forEach((error) => {
+      parsedData.error.errors.forEach((error) => {
         if (error.path[0]) {
           fieldErrors[error.path[0]] = error.message;
         }
       });
       setErrors(fieldErrors);
-    } else {
-      setErrors({});
-      // Process form data
-      console.log('Valid data:', result.data);
+      return;
     }
+
+    // If validation passes, call the mutation
+    mutate(parsedData.data);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

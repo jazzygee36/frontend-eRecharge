@@ -5,9 +5,10 @@ interface Props {
   type: string;
   placeholder: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name?: string; // Optional name prop
   className?: string; // Optional custom class for styling
+  readOnly?: boolean;
 }
 
 const Input = ({
@@ -17,6 +18,7 @@ const Input = ({
   onChange,
   name,
   className,
+  readOnly,
   ...rest
 }: Props) => {
   return (
@@ -26,6 +28,7 @@ const Input = ({
         name={name} // Attach name prop if provided
         placeholder={placeholder}
         value={value}
+        readOnly={readOnly}
         onChange={onChange}
         className={`h-11 w-full outline-none rounded-lg border border-[grey] px-3 ${className}`}
         {...rest} // Spread additional props

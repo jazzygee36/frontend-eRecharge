@@ -22,7 +22,6 @@ const Card = () => {
             'Start enjoying this  rates for your internet browsing databundle.'
           }
           bottomText={'Buy Now'}
-          isBottomTextDisabled={true}
         />
         <Cards
           img={Buy.src}
@@ -46,7 +45,6 @@ const Card = () => {
           }
           bottomText={'Pay Now'}
           className={`text-[20px]`}
-          isBottomTextDisabled={true}
         />
       </div>
     </div>
