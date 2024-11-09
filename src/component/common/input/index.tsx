@@ -9,6 +9,7 @@ interface Props {
   name?: string; // Optional name prop
   className?: string; // Optional custom class for styling
   readOnly?: boolean;
+  disabled?: boolean;
 }
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   name,
   className,
   readOnly,
+  disabled,
   ...rest
 }: Props) => {
   return (
@@ -32,6 +34,7 @@ const Input = ({
         onChange={onChange}
         className={`h-11 w-full outline-none rounded-lg border border-[grey] px-3 ${className}`}
         {...rest} // Spread additional props
+        disabled={disabled}
       />
     </div>
   );

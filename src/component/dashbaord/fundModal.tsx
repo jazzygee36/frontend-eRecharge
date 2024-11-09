@@ -11,18 +11,22 @@ interface ModalProps {
 }
 
 const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState('');
   const [showPaystack, setShowPaystack] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(e.target.value));
+    // Allow only numeric input (including decimal point)
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      setAmount(value); // Update the amount state if valid number
+    }
   };
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (amount > 500) {
+    if (parseFloat(amount) > 500) {
       onClose();
       setShowPaystack(true); // Only show Paystack if amount is valid
     } else {
@@ -30,7 +34,6 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  // Update this to extract reference from the object
   const handlePaystackSuccessAction = async (data: { reference: string }) => {
     const reference = data.reference; // Extract reference from the object
     console.log('Paystack callback triggered', reference);
@@ -63,7 +66,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         const handler = window.PaystackPop.setup({
           key: 'pk_test_bb303c70de3d313ccf557c37b226540818e7fc03',
           email: 'user@example.com',
-          amount: amount * 100,
+          amount: parseFloat(amount) * 100, // Convert amount to float for Paystack
           ref: new Date().getTime().toString(),
           callback: (data: { reference: string }) =>
             handlePaystackSuccessAction(data), // Pass the object to the callback
@@ -124,13 +127,14 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <Input
                 type='number'
                 placeholder='Amount'
-                value={amount.toString()}
+                value={amount}
                 onChange={handleAmountChange}
               />
               <Button
                 title='Continue'
-                className='bg-[#485696] w-full mt-4 text-white'
+                className={`bg-[#485696] $ w-full mt-4 text-white`}
                 type={'submit'}
+                // disabled={amount.length < 500}
               />
             </form>
           </div>

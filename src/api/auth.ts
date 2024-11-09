@@ -20,10 +20,18 @@ interface Login {
 interface RequestPwdReset {
   email: string;
   newPassword: string;
+  access_token?: string;
 }
 
 interface ResetPassword {
   password: string;
+  access_token?: string;
+}
+interface Utilities {
+  email: string;
+  amount: string;
+  utilityType: string;
+  phone: string;
 }
 export interface User {
   username: string;
@@ -70,8 +78,19 @@ export const resetPassword = async (body: ResetPassword) => {
 
   return data;
 };
+export const payUtiliies = async (body: Utilities) => {
+  const { data } = await apiClient.post(QUERIES.PAYUTILITIES, body);
+
+  postToLocalStorage(data.access_token ?? '');
+
+  return data;
+};
 
 export const getUser = async () => {
   const { data } = await apiClient.get(QUERIES.ME);
+  return data || {};
+};
+export const paymentCallBack = async () => {
+  const { data } = await apiClient.get(QUERIES.PAYMENTCALLBACK);
   return data || {};
 };

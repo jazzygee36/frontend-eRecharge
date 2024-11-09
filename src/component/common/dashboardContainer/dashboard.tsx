@@ -38,6 +38,12 @@ const Sidebar = () => {
   }, [isOpen]);
 
   const handleLogOut = () => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    localStorage.removeItem('token');
+    window?.location.reload();
     localStorage.clear();
     window.location.href = '/login';
   };
@@ -105,7 +111,7 @@ const Sidebar = () => {
             </li>
             <Button
               title={'LogOut'}
-              className={'w-full bg-[red]'}
+              className={'w-full bg-[#4C3B4D]'}
               type={'button'}
               onClick={handleLogOut}
             />

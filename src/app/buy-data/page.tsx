@@ -11,6 +11,7 @@ import MTNPhone from '../../assets/airtime/images.png';
 import AirtelPhone from '../../assets/airtime/airtel.png';
 import GloPhone from '../../assets/airtime/GloMobile.jpg';
 import { useState } from 'react';
+import BackIcon from '@/assets/icons/backIcon';
 // import { useRouter } from 'next/router';
 
 const BuyData = () => {
@@ -26,9 +27,14 @@ const BuyData = () => {
 
   return (
     <div className='py-5 px-5  h-screen'>
-      <h2 className='text-xl font-bold text-[green] text-center mb-5'>
-        e-Recharge <span style={{ color: '#485696' }}>Airtime</span>
-      </h2>
+      <div className='flex justify-center items-center gap-4 mb-5'>
+        <div className='absolute left-4'>
+          <BackIcon />
+        </div>
+        <h2 className='text-xl font-bold text-[green] text-center '>
+          e-Recharge <span style={{ color: '#485696' }}>Data Plan</span>
+        </h2>
+      </div>
       <form className='w-full md:w-[50%] m-auto'>
         <p className='font-semibold text-[#000000] mb-3'>
           Select Mobile Operation
@@ -193,6 +199,7 @@ const BuyData = () => {
           onChange={(e) => {
             setDataPlan(e.target.value);
           }}
+          disabled={true}
         />
 
         <p className='mt-4 font-semibold'>Phone Number</p>
@@ -203,11 +210,13 @@ const BuyData = () => {
           onChange={(e) => {
             setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''));
           }}
+          disabled={true}
         />
         <Button
           title={'Continue'}
           className={'bg-[#485696] w-full mt-5'}
           type={'submit'}
+          disabled={true}
         />
       </form>
     </div>

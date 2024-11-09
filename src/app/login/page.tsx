@@ -32,20 +32,32 @@ const Login = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: logIn,
     onSuccess: (data: unknown) => {
-      const successMessage =
-        (data as { response?: { data?: { message: string } } })?.response?.data
-          ?.message || 'Login Successful';
-      setToastMessage({
-        message: successMessage,
-        type: 'success',
-      });
+      const token =
+        (data as { token?: string })?.token || (data as any)?.data?.token;
 
-      queryClient.invalidateQueries({
-        queryKey: [QUERIES.ME],
-      });
-      // Additional logic for post-registration
+      if (token) {
+        // Store the token in localStorage
+        localStorage.setItem('token', token);
 
-      window.location.href = '/dashboard';
+        // Show success toast
+        setToastMessage({
+          message: 'Login Successful',
+          type: 'success',
+        });
+
+        // Invalidate queries to refresh data
+        queryClient.invalidateQueries({
+          queryKey: [QUERIES.ME],
+        });
+
+        // Redirect to dashboard
+        window.location.href = '/dashboard';
+      } else {
+        setToastMessage({
+          message: 'Token not received. Please try again.',
+          type: 'error',
+        });
+      }
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const errorMessage =

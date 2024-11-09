@@ -6,210 +6,219 @@ import MTN from '../../assets/airtime/mtn big.webp';
 import Airtel from '../../assets/airtime/airtelbig.jpg';
 import MNineMobile from '../../assets/airtime/9mobile-logo.jpg';
 import Glo from '../../assets/airtime/globig.jpg';
-import NinePhone from '../../assets/airtime/9mobile.png';
-import MTNPhone from '../../assets/airtime/images.png';
-import AirtelPhone from '../../assets/airtime/airtel.png';
-import GloPhone from '../../assets/airtime/GloMobile.jpg';
 import { useState } from 'react';
-// import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
+import { AxiosError } from 'axios';
+import { QUERIES } from '@/utils';
+import { payUtiliies } from '@/api/auth';
+import Toast from '@/component/common/toast/toast';
+import BackIcon from '@/assets/icons/backIcon';
+import ConfirmModal from '@/component/common/paymentConfirmModal/confirmModal';
+
+const formSchema = z.object({
+  phone: z.string().min(11, 'Phone number is required'),
+  utilityType: z.string().min(3, 'Select network'),
+  email: z.string().min(3, 'Email is required'),
+  amount: z.string().min(3, 'Amount is required'),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 const Airtime = () => {
-  // State to track the selected image
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+  const [data, setData] = useState<FormData>({
+    phone: '',
+    email: '',
+    amount: '',
+    utilityType: '',
+  });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [toastMessage, setToastMessage] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [telPhone, setTelPhone] = useState('');
-  const [amount, setAmount] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   const handleImageClick = (image: string) => {
-    // Toggle checkbox when a new image is clicked
     setSelectedImage(selectedImage === image ? null : image);
+    setData((prevData) => ({ ...prevData, utilityType: image }));
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: payUtiliies,
+
+    onSuccess: (data: unknown) => {
+      const authorization_url =
+        (data as { authorization_url?: string })?.authorization_url ||
+        (data as any)?.data?.authorization_url;
+
+      localStorage.setItem('authorization_url', authorization_url);
+
+      if (authorization_url) {
+        // Store the token in localStorage
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERIES.ME],
+        });
+        openModal();
+      } else {
+        setToastMessage({
+          message: 'Error',
+          type: 'error',
+        });
+      }
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      const errorMessage =
+        error?.response?.data?.message || 'Error during login';
+      setToastMessage({ message: errorMessage, type: 'error' });
+      console.log(error);
+    },
+  });
+
+  const handlePayment = () => {
+    const authorization_url = localStorage.getItem('authorization_url');
+    window.location.href = authorization_url as string;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const parsedData = formSchema.safeParse(data);
+    if (!parsedData.success) {
+      const fieldErrors: { [key: string]: string } = {};
+      parsedData.error.errors.forEach((error) => {
+        if (error.path[0]) {
+          fieldErrors[error.path[0]] = error.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    mutate(parsedData.data);
   };
 
   return (
-    <div className='py-5 px-5  h-screen'>
-      <h2 className='text-xl font-bold text-[green] text-center mb-5'>
-        e-Recharge <span style={{ color: '#485696' }}>Airtime</span>
-      </h2>
-      <form className='w-full md:w-[50%] m-auto'>
-        <p className='font-semibold text-[#000000] mb-3'>
-          Select Mobile Operation
-        </p>
-        <div className='hidden md:block mt-4'>
-          <div className='grid grid-cols-4 justify-between gap-6 items-center m-auto w-full'>
-            <div className='relative'>
-              <img
-                src={MNineMobile.src}
-                alt='mtn'
-                width={300}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('9mobile')}
-              />
-              {selectedImage === '9mobile' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === '9mobile'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={Airtel.src}
-                alt='airtel'
-                width={300}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('airtel')}
-              />
-              {selectedImage === 'airtel' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'airtel'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={MTN.src}
-                alt='mtn'
-                width={270}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('mtn')}
-              />
-              {selectedImage === 'mtn' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'mtn'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={Glo.src}
-                alt='glo'
-                width={300}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('glo')}
-              />
-              {selectedImage === 'glo' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'glo'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-          </div>
+    <div className='py-5 px-5 h-screen'>
+      <div className='flex justify-center items-center gap-4 mb-5'>
+        <div className='absolute left-4'>
+          <BackIcon />
         </div>
+        <h2 className='text-xl font-bold text-[green] text-center '>
+          e-Recharge <span style={{ color: '#485696' }}>Airtime</span>
+        </h2>
+      </div>
 
-        <div className='block md:hidden'>
-          <div className='grid grid-cols-4 justify-between gap-4 items-center m-auto w-full'>
-            <div className='relative'>
-              <img
-                src={NinePhone.src}
-                alt='9mobile'
-                width={130}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('9mobile')}
-              />
-              {selectedImage === '9mobile' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === '9mobile'}
-                  className='absolute top-1 left-1'
-                  readOnly
+      <form className='w-full md:w-[50%] m-auto' onSubmit={handleSubmit}>
+        <p className='font-semibold text-[#000000] mb-3'>
+          Select Mobile Operator
+        </p>
+        <div className=' md:block mt-4'>
+          <div className='grid grid-cols-4 gap-6 items-center'>
+            {[
+              { img: MNineMobile, label: '9mobile' },
+              { img: Airtel, label: 'airtel' },
+              { img: MTN, label: 'mtn' },
+              { img: Glo, label: 'glo' },
+            ].map(({ img, label }) => (
+              <div key={label} className='relative'>
+                <img
+                  src={img.src}
+                  alt={label}
+                  width={300}
+                  className='cursor-pointer rounded-lg'
+                  onClick={() => handleImageClick(label)}
                 />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={AirtelPhone.src}
-                alt='airtel'
-                width={130}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('airtel')}
-              />
-              {selectedImage === 'airtel' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'airtel'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={MTNPhone.src}
-                alt='mtn'
-                width={130}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('mtn')}
-              />
-              {selectedImage === 'mtn' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'mtn'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
-
-            <div className='relative'>
-              <img
-                src={GloPhone.src}
-                alt='glo'
-                width={130}
-                className='cursor-pointer rounded-lg'
-                onClick={() => handleImageClick('glo')}
-              />
-              {selectedImage === 'glo' && (
-                <input
-                  type='checkbox'
-                  checked={selectedImage === 'glo'}
-                  className='absolute top-1 left-1'
-                  readOnly
-                />
-              )}
-            </div>
+                {selectedImage === label && (
+                  <input
+                    type='checkbox'
+                    checked
+                    className='absolute top-1 left-1'
+                    readOnly
+                  />
+                )}
+              </div>
+            ))}
           </div>
+          {errors.utilityType && (
+            <p className='text-red-500 text-[13px]'>{errors.utilityType}</p>
+          )}
         </div>
 
         <p className='mt-6 font-semibold'>Mobile Number</p>
         <Input
-          type={'tel'}
-          placeholder={'Mobile number'}
-          value={telPhone}
-          onChange={(e) => {
-            setTelPhone(e.target.value.replace(/[^0-9]/g, ''));
-          }}
+          type='text'
+          name='phone'
+          placeholder='Mobile number'
+          value={data.phone}
+          onChange={handleChange}
         />
+        {errors.phone && (
+          <p className='text-red-500 text-[13px]'>{errors.phone}</p>
+        )}
 
         <p className='mt-4 font-semibold'>Amount</p>
         <Input
-          type={'text'}
-          placeholder={'Amount'}
-          value={amount}
-          onChange={(e) => {
-            setAmount(e.target.value.replace(/[^0-9]/g, ''));
-          }}
+          type='text'
+          name='amount'
+          placeholder='Amount'
+          value={data.amount}
+          onChange={handleChange}
         />
+        {errors.amount && (
+          <p className='text-red-500 text-[13px]'>{errors.amount}</p>
+        )}
+
+        <p className='mt-4 font-semibold'>Email</p>
+        <Input
+          type='email'
+          name='email'
+          placeholder='Email'
+          value={data.email}
+          onChange={handleChange}
+        />
+        {errors.email && (
+          <p className='text-red-500 text-[13px]'>{errors.email}</p>
+        )}
+
         <Button
-          title={'Continue'}
-          className={'bg-[#485696] w-full mt-5'}
-          type={'submit'}
+          title={isPending ? 'Continue...' : 'Continue'}
+          disabled={isPending}
+          className='bg-[#485696] w-full mt-5'
+          type='submit'
+          // isPending={isPending}
         />
       </form>
+      {toastMessage && (
+        <Toast
+          message={toastMessage.message}
+          type={toastMessage.type}
+          onClose={() => setToastMessage(null)}
+        />
+      )}
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onClick={handlePayment}
+        network={data.utilityType}
+        email={data.email}
+        phone={data.phone}
+        amount={data.amount}
+        isPending={isPending}
+      />
     </div>
   );
 };

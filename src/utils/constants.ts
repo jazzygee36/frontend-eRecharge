@@ -8,4 +8,6 @@ export const QUERIES = {
   ME: '/me',
   REQUESTPASSWORDRESET: '/request-password-reset',
   RESETPASSWORD: '/reset-password',
+  PAYUTILITIES: '/pay-topup',
+  PAYMENTCALLBACK: '/payment-callback',
 };

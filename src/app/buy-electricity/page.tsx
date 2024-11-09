@@ -1,5 +1,6 @@
 'use client';
 
+import BackIcon from '@/assets/icons/backIcon';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
 
@@ -9,9 +10,15 @@ const BuyElectricity = () => {
   // const router = useRouter();
   return (
     <div className='py-5 px-5  h-screen'>
-      <h2 className='text-xl font-bold text-[green] text-center mb-5'>
-        e-Recharge <span style={{ color: '#485696' }}>Electricity</span>
-      </h2>
+      <div className='flex justify-center items-center gap-4 mb-5'>
+        <div className='absolute left-4'>
+          <BackIcon />
+        </div>
+        <h2 className='text-xl font-bold text-[green] text-center '>
+          e-Recharge <span style={{ color: '#485696' }}>Electricity</span>
+        </h2>
+      </div>
+
       {/* <div className='' onClick={() => router.back}>
         Back
       </div> */}
