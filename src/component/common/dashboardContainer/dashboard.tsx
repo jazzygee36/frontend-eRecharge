@@ -111,7 +111,7 @@ const Sidebar = () => {
             </li>
             <Button
               title={'LogOut'}
-              className={'w-full bg-[#4C3B4D]'}
+              className={'w-full bg-[#c4472b]'}
               type={'button'}
               onClick={handleLogOut}
             />

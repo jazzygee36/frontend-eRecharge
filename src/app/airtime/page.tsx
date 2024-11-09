@@ -28,7 +28,6 @@ type FormData = z.infer<typeof formSchema>;
 const Airtime = () => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -62,12 +61,12 @@ const Airtime = () => {
     onSuccess: (data: unknown) => {
       const authorization_url =
         (data as { authorization_url?: string })?.authorization_url ||
-        (data as any)?.data?.authorization_url;
-
-      localStorage.setItem('authorization_url', authorization_url);
+        (data as { data?: { authorization_url?: string } })?.data
+          ?.authorization_url;
 
       if (authorization_url) {
         // Store the token in localStorage
+        localStorage.setItem('authorization_url', authorization_url);
 
         queryClient.invalidateQueries({
           queryKey: [QUERIES.ME],

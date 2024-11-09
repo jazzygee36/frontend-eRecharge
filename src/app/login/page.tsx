@@ -33,7 +33,8 @@ const Login = () => {
     mutationFn: logIn,
     onSuccess: (data: unknown) => {
       const token =
-        (data as { token?: string })?.token || (data as any)?.data?.token;
+        (data as { token?: string })?.token ||
+        (data as { data?: { token: string } })?.data?.token;
 
       if (token) {
         // Store the token in localStorage
