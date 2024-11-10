@@ -39,9 +39,8 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     console.log('Paystack callback triggered', reference);
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/verify-payment',
+        `http://localhost:1000/api/verify-payment`,
         {
-          amount,
           reference, // Send the reference directly to the API
         }
       );

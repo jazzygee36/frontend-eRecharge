@@ -12,6 +12,7 @@ import AirtelPhone from '../../assets/airtime/airtel.png';
 import GloPhone from '../../assets/airtime/GloMobile.jpg';
 import { useState } from 'react';
 import BackIcon from '@/assets/icons/backIcon';
+import withAuth from '../hoc';
 // import { useRouter } from 'next/router';
 
 const BuyData = () => {
@@ -223,4 +224,4 @@ const BuyData = () => {
   );
 };
 
-export default BuyData;
+export default withAuth(BuyData);

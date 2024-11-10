@@ -1,5 +1,7 @@
+'use client';
 import React from 'react';
 import Dashboard from '../../component/common/dashboardContainer/dashboard';
+import withAuth from '../hoc';
 
 const DashboardContainer = () => {
   return (
@@ -9,4 +11,4 @@ const DashboardContainer = () => {
   );
 };
 
-export default DashboardContainer;
+export default withAuth(DashboardContainer);

@@ -1,7 +1,8 @@
 import React from 'react';
+import withAuth from '../hoc';
 
 const PayBills = () => {
   return <div>PayBills</div>;
 };
 
-export default PayBills;
+export default withAuth(PayBills);

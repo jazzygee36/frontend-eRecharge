@@ -62,7 +62,7 @@ const ConfirmModal: React.FC<ModalProps> = ({
 
           <Button
             // title={'Pay'}
-            title={isPending ? 'Pay...' : 'Pay'}
+            title={isPending ? 'Buy...' : 'Buy'}
             disabled={isPending}
             className={'bg-[#485696] w-full mt-8'}
             type={'button'}

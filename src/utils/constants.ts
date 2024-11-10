@@ -10,4 +10,5 @@ export const QUERIES = {
   RESETPASSWORD: '/reset-password',
   PAYUTILITIES: '/pay-topup',
   PAYMENTCALLBACK: '/payment-callback',
+  VERIFYPAYMENT: '/verify-payment',
 };

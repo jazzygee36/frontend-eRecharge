@@ -33,6 +33,12 @@ interface Utilities {
   utilityType: string;
   phone: string;
 }
+
+interface FundWallet {
+  reference: string;
+  amount: number;
+  status?: string;
+}
 export interface User {
   username: string;
 
@@ -80,6 +86,14 @@ export const resetPassword = async (body: ResetPassword) => {
 };
 export const payUtiliies = async (body: Utilities) => {
   const { data } = await apiClient.post(QUERIES.PAYUTILITIES, body);
+
+  postToLocalStorage(data.access_token ?? '');
+
+  return data;
+};
+
+export const fundWallet = async (body: FundWallet) => {
+  const { data } = await apiClient.post(QUERIES.VERIFYPAYMENT, body);
 
   postToLocalStorage(data.access_token ?? '');
 
