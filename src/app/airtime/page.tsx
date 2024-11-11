@@ -26,7 +26,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const Airtime = withAuth(() => {
+const Airtime = () => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -187,6 +187,6 @@ const Airtime = withAuth(() => {
       />
     </div>
   );
-});
+};
 
 export default Airtime;
