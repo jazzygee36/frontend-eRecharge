@@ -2,7 +2,7 @@
 
 import { useEffect, useState, ComponentType } from 'react';
 
-// Constrain P to include JSX.IntrinsicAttributes for correct prop spreading
+// Ensure the generic type extends IntrinsicAttributes to handle JSX elements correctly
 function withAuth<P extends JSX.IntrinsicAttributes>(
   WrappedComponent: ComponentType<P>
 ): ComponentType<P> {
@@ -23,10 +23,8 @@ function withAuth<P extends JSX.IntrinsicAttributes>(
       }
     }, []);
 
-    // Render loading indicator or null while authentication state is being determined
     if (isAuthenticated === null) return null;
 
-    // Render the wrapped component if authenticated, otherwise null
     return isAuthenticated ? <WrappedComponent {...props} /> : null;
   };
 

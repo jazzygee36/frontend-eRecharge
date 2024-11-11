@@ -39,6 +39,7 @@ const Airtime = withAuth(() => {
     utilityType: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const [toastMessage, setToastMessage] = useState<{
     message: string;
     type: 'success' | 'error';
@@ -158,50 +159,15 @@ const Airtime = withAuth(() => {
           )}
         </div>
 
-        <p className='mt-6 font-semibold'>Mobile Number</p>
-        <Input
-          type='text'
-          name='phone'
-          placeholder='Mobile number'
-          value={data.phone}
-          onChange={handleChange}
-        />
-        {errors.phone && (
-          <p className='text-red-500 text-[13px]'>{errors.phone}</p>
-        )}
-
-        <p className='mt-4 font-semibold'>Amount</p>
-        <Input
-          type='text'
-          name='amount'
-          placeholder='Amount'
-          value={data.amount}
-          onChange={handleChange}
-        />
-        {errors.amount && (
-          <p className='text-red-500 text-[13px]'>{errors.amount}</p>
-        )}
-
-        <p className='mt-4 font-semibold'>Email</p>
-        <Input
-          type='email'
-          name='email'
-          placeholder='Email'
-          value={data.email}
-          onChange={handleChange}
-        />
-        {errors.email && (
-          <p className='text-red-500 text-[13px]'>{errors.email}</p>
-        )}
-
+        {/* Input fields */}
         <Button
           title={isPending ? 'Continue...' : 'Continue'}
           disabled={isPending}
           className='bg-[#485696] w-full mt-5'
           type='submit'
-          // isPending={isPending}
         />
       </form>
+
       {toastMessage && (
         <Toast
           message={toastMessage.message}
