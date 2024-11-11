@@ -42,6 +42,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         `http://localhost:1000/api/verify-payment`,
         {
           reference, // Send the reference directly to the API
+          amount,
         }
       );
       console.log(

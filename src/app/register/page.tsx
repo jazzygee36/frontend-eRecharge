@@ -29,6 +29,7 @@ const Register = () => {
     email: '',
     phoneNumber: '',
   });
+  console.log('email', data.email);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [toastMessage, setToastMessage] = useState<{
@@ -42,6 +43,7 @@ const Register = () => {
       const successMessage =
         (data as { response?: { data?: { message: string } } })?.response?.data
           ?.message || 'Registered Successfully';
+
       setToastMessage({
         message: successMessage,
         type: 'success',
@@ -60,6 +62,7 @@ const Register = () => {
       console.log(error);
     },
   });
+  // localStorage.setItem('email', data.email);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,6 +89,9 @@ const Register = () => {
     const { name, value } = e.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' })); // Clear field-specific errors on input change
+    if (name === 'email') {
+      localStorage.setItem('email', value);
+    }
   };
 
   return (
