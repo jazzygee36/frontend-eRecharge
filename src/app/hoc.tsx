@@ -2,33 +2,31 @@
 
 import { useEffect, useState, ComponentType } from 'react';
 
-// Constrain T to ensure it can be used as valid props for a React component
-function withAuth<T extends JSX.IntrinsicAttributes>(
-  WrappedComponent: ComponentType<T>
-): ComponentType<T> {
-  const AuthComponent = (props: T): JSX.Element | null => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [isClient, setIsClient] = useState(false);
+// Constrain P to include JSX.IntrinsicAttributes for correct prop spreading
+function withAuth<P extends JSX.IntrinsicAttributes>(
+  WrappedComponent: ComponentType<P>
+): ComponentType<P> {
+  const AuthComponent = (props: P): JSX.Element | null => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
+      null
+    );
 
-    // This effect will run only on the client side
     useEffect(() => {
-      setIsClient(true); // Ensure that we are on the client side
       if (typeof window !== 'undefined') {
         const token = localStorage.getItem('token');
         if (token) {
           setIsAuthenticated(true);
         } else {
-          window.location.href = '/login'; // Use window.location to redirect if no token
+          setIsAuthenticated(false);
+          window.location.href = '/login';
         }
-        setLoading(false);
       }
     }, []);
 
-    // If loading or not on the client, return null (avoid rendering before component is mounted)
-    if (loading || !isClient) return null;
+    // Render loading indicator or null while authentication state is being determined
+    if (isAuthenticated === null) return null;
 
-    // If not authenticated, return null, otherwise return WrappedComponent
+    // Render the wrapped component if authenticated, otherwise null
     return isAuthenticated ? <WrappedComponent {...props} /> : null;
   };
 
