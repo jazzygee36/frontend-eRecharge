@@ -16,7 +16,7 @@ const MonthlyExpenseTable = () => {
 
   return (
     <>
-      <div className='flex gap-3 mt-5 items-center px-2'>
+      <div className='flex gap-3 mt-5 mb-5 items-center px-2'>
         <BackIcon />
         <h2>back</h2>
       </div>
