@@ -106,7 +106,7 @@ const Login = () => {
         <div className='w-[80%] lg:w-[55%] m-auto'>
           <h2 className='text-[30px] font-bold text-center  mt-10 lg:mt-0'>
             Welcome to{' '}
-            <span style={{ color: 'green', fontWeight: 700 }}>E-Recharge</span>
+            <span style={{ color: 'green', fontWeight: 700 }}>e-Recharge</span>
           </h2>
 
           <h6 className='text-[20px] font-bold  mt-10 lg:mt-0'>Login</h6>
