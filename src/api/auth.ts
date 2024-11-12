@@ -36,17 +36,37 @@ interface Utilities {
   phone: string;
 }
 
-
-
 interface FundWallet {
   reference: string;
   amount: number;
   status?: string;
 }
+
+interface Payment {
+  amount: number;
+  channel: string;
+  paymentDate: string;
+  status: string;
+  transactionReference: string;
+}
+
+interface Profile {
+  username: string;
+  email: string;
+  phoneNumber: string;
+  payments: Payment[] | undefined;
+}
 export interface User {
   username: string;
-
-  password: string;
+  profile?: Profile;
+  email: string;
+  // password: string;
+  phoneNumber: string;
+  transactionReference: string;
+  amount: number;
+  paymentDate: Date;
+  status: string;
+  channel: string;
 
   access_token?: string;
 }
@@ -98,14 +118,6 @@ export const payUtiliies = async (body: Utilities) => {
 
 export const fundWallet = async (body: FundWallet) => {
   const { data } = await apiClient.post(QUERIES.VERIFYPAYMENT, body);
-
-  postToLocalStorage(data.access_token ?? '');
-
-  return data;
-};
-
-export const userProfile = async () => {
-  const { data } = await apiClient.get(QUERIES.USERPROFILE);
 
   postToLocalStorage(data.access_token ?? '');
 

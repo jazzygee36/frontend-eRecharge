@@ -5,11 +5,10 @@ export const ROUTES = {
 export const QUERIES = {
   SIGNUP: '/register',
   LOGIN: '/login',
-  ME: '/me',
   REQUESTPASSWORDRESET: '/request-password-reset',
   RESETPASSWORD: '/reset-password',
   PAYUTILITIES: '/pay-topup',
   PAYMENTCALLBACK: '/payment-callback',
   VERIFYPAYMENT: '/verify-payment',
-  USERPROFILE: '/profile/:userId',
+  ME: '/profile',
 };

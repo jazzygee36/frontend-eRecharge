@@ -5,7 +5,9 @@ const Index = () => {
   return (
     <div>
       <DashboardCards />
-      <MonthlyExpenseTable />
+      <div className='hidden md:block'>
+        <MonthlyExpenseTable />
+      </div>
       <QuickLinks />
     </div>
   );

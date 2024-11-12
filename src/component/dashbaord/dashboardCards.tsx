@@ -1,9 +1,11 @@
-'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FundModal from './fundModal';
+import { useUser } from '@/hooks';
+import UserIcon from '@/assets/icons/userIcon';
 
 const DashboardCards = () => {
-  // State to manage the toggle of the switch
+  const { data } = useUser(true);
+
   const [isToggledWallet, setIsToggledWallet] = useState(false);
   const [isToggledExpense, setIsToggledExpense] = useState(false);
   const [walletBalance, setWalletBalance] = useState(false);
@@ -13,7 +15,6 @@ const DashboardCards = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  // Function to handle toggle change
   const handleToggleWallet = () => {
     setIsToggledWallet((prev) => !prev);
   };
@@ -27,20 +28,30 @@ const DashboardCards = () => {
   const toggleToSeeMonthlyBalance = () => {
     setMonthlyExpenseBalance(!monthlyExpenseBalance);
   };
-  
+
+  const totalAmount = data?.profile?.payments?.reduce(
+    (sum: any, payment: any) => sum + payment.amount,
+    0
+  );
+  const convertToKobo = totalAmount / 100;
   return (
     <div>
-      {/* <h2 className='text-2xl font-bold text-left'>Welcome</h2> */}
       <div className='flex justify-between items-center'>
-      <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
+        <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
+        <div className=' mr-7 flex gap-2 '>
+          <h2 className='capitalize'>{data?.profile?.username}</h2>
+          <UserIcon />
         </div>
+      </div>
 
       <div className='flex flex-col md:flex-row gap-4 justify-center items-center mt-4 md:mt-0 p-0 md:p-4'>
         {/* Wallet Balance Box */}
         <div className='shadow-lg bg-[#61C9A8] p-6 rounded-lg w-full md:w-1/2 text-center'>
           <h2 className='text-xl font-bold text-white'>Wallet Balance</h2>
           {walletBalance ? (
-            <p className='text-2xl font-semibold mt-2 text-white'>N0.00</p>
+            <p className='text-2xl font-semibold mt-2 text-white'>
+              N{convertToKobo}
+            </p>
           ) : (
             <p className='text-2xl font-semibold mt-2 text-white'>******</p>
           )}
@@ -61,8 +72,8 @@ const DashboardCards = () => {
                   <input
                     type='checkbox'
                     className='hidden'
-                    checked={isToggledWallet} // bind the checked status to state
-                    onChange={handleToggleWallet} // handle toggle change
+                    checked={isToggledWallet}
+                    onChange={handleToggleWallet}
                     onClick={toggleToSeeWalletBalance}
                   />
                   <div className='block bg-gray-400 w-14 h-8 rounded-full'></div>
@@ -74,8 +85,6 @@ const DashboardCards = () => {
                     }`}
                   ></div>
                 </div>
-
-                {/* Optional label for the switch */}
               </label>
             </div>
           </div>
@@ -105,8 +114,8 @@ const DashboardCards = () => {
                   <input
                     type='checkbox'
                     className='hidden'
-                    checked={isToggledExpense} // bind the checked status to state
-                    onChange={handleToggleExpense} // handle toggle change
+                    checked={isToggledExpense}
+                    onChange={handleToggleExpense}
                     onClick={toggleToSeeMonthlyBalance}
                   />
                   <div className='block bg-gray-400 w-14 h-8 rounded-full'></div>
@@ -118,8 +127,6 @@ const DashboardCards = () => {
                     }`}
                   ></div>
                 </div>
-
-                {/* Optional label for the switch */}
               </label>
             </div>
           </div>

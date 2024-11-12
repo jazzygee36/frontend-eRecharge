@@ -7,11 +7,19 @@ import ThankYou from '../../assets/thank-you.webp';
 import Link from 'next/link';
 
 const QuickLinks = () => {
+  const handleHistory = () => {
+    window.location.href = '/history';
+  };
   return (
     <div className='block md:hidden mt-5'>
       <div className='flex justify-between items-start py-2 px-3 mt-5  bg-[#4C3B4D] text-white '>
         <h4 className='font-medium text-[16px]'>eaZyLinks</h4>
-        <h4 className='font-medium text-[16px] cursor-pointer'>History</h4>
+        <h4
+          className='font-medium text-[16px] cursor-pointer'
+          onClick={handleHistory}
+        >
+          History
+        </h4>
       </div>
       <div className='flex justify-between  m-auto items-center w-[90%]  align-middle mt-4'>
         <div className='flex flex-col gap-1 justify-center items-center'>

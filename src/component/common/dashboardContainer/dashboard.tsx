@@ -67,6 +67,7 @@ const Sidebar = () => {
       >
         <div className='p-4'>
           <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
+          {/* <h3>{user} <h3> */}
           <ul className='mt-4 space-y-2'>
             <li>
               <Link href='#home' className='block p-2' onClick={closeSidebar}>
