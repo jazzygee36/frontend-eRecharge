@@ -10,6 +10,7 @@ import { signUp } from '@/api/auth';
 import Toast from '@/component/common/toast/toast';
 import { QUERIES } from '@/utils';
 import { AxiosError } from 'axios';
+import Loading from '@/component/common/loading/loading';
 
 const formSchema = z.object({
   username: z.string().min(3, 'Username should be at least 3 characters long'),
@@ -22,7 +23,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const Register = () => {
   const queryClient = useQueryClient();
-
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<FormData>({
     username: '',
     password: '',
@@ -43,6 +44,7 @@ const Register = () => {
       const successMessage =
         (data as { response?: { data?: { message: string } } })?.response?.data
           ?.message || 'Registered Successfully';
+      setLoading(true);
 
       setToastMessage({
         message: successMessage,
@@ -53,7 +55,9 @@ const Register = () => {
       });
       // Additional logic for post-registratio
 
-      window.location.href = '/confirm-email';
+      setTimeout(() => {
+        window.location.href = '/confirm-email';
+      }, 300); // Adjust delay as needed
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const errorMessage =
@@ -95,97 +99,107 @@ const Register = () => {
   };
 
   return (
-    <div className='flex items-center justify-center min-h-screen'>
-      <div className='grid grid-cols-1 md:grid-cols-2 items-center w-full'>
-        <img src={Create.src} alt='create' className='m-auto hidden md:block' />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className='flex items-center justify-center min-h-screen'>
+          <div className='grid grid-cols-1 md:grid-cols-2 items-center w-full'>
+            <img
+              src={Create.src}
+              alt='create'
+              className='m-auto hidden md:block'
+            />
 
-        <div className='w-[80%] lg:w-[55%] m-auto'>
-          <h2 className='text-xl font-bold text-[green] text-center'>
-            e-Recharge
-          </h2>
-          <h2 className='text-[30px] font-bold text-center mt-10 lg:mt-0'>
-            Create an account
-          </h2>
-          <form onSubmit={handleSubmit}>
-            <Input
-              type='text'
-              placeholder='Username'
-              name='username'
-              value={data.username}
-              onChange={handleChange}
-            />
-            {errors.username && (
-              <p className='text-red-500 text-[13px] text-center'>
-                {errors.username}
-              </p>
-            )}
-            <Input
-              type='email'
-              placeholder='Email'
-              name='email'
-              value={data.email}
-              onChange={handleChange}
-            />
-            {errors.email && (
-              <p className='text-red-500 text-[13px] text-center'>
-                {errors.email}
-              </p>
-            )}
-            <Input
-              type='text'
-              placeholder='Phone Number'
-              name='phoneNumber'
-              value={data.phoneNumber}
-              onChange={handleChange}
-            />
-            {errors.phoneNumber && (
-              <p className='text-red-500 text-[13px] text-center'>
-                {errors.phoneNumber}
-              </p>
-            )}
-            <Input
-              type='password'
-              placeholder='Password'
-              name='password'
-              value={data.password}
-              onChange={handleChange}
-            />
-            {errors.password && (
-              <p className='text-red-500 text-[13px] text-center'>
-                {errors.password}
-              </p>
-            )}
-            <Button
-              type='submit'
-              title={isPending ? 'Registering...' : 'Register'}
-              disabled={isPending}
-              className='bg-[#485696] w-full hover:bg-[green]'
-            />
-            <p className='text-[#333333] text-center text-[13px] mt-3'>
-              Already have an account?{' '}
-              <Link href='/login'>
-                <span
-                  style={{
-                    color: '#FC7A1E',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Log In
-                </span>
-              </Link>
-            </p>
-          </form>
-          {toastMessage && (
-            <Toast
-              message={toastMessage.message}
-              type={toastMessage.type}
-              onClose={() => setToastMessage(null)}
-            />
-          )}
+            <div className='w-[80%] lg:w-[55%] m-auto'>
+              <h2 className='text-xl font-bold text-[green] text-center'>
+                e-Recharge
+              </h2>
+              <h2 className='text-[30px] font-bold text-center mt-10 lg:mt-0'>
+                Create an account
+              </h2>
+              <form onSubmit={handleSubmit}>
+                <Input
+                  type='text'
+                  placeholder='Username'
+                  name='username'
+                  value={data.username}
+                  onChange={handleChange}
+                />
+                {errors.username && (
+                  <p className='text-red-500 text-[13px] text-center'>
+                    {errors.username}
+                  </p>
+                )}
+                <Input
+                  type='email'
+                  placeholder='Email'
+                  name='email'
+                  value={data.email}
+                  onChange={handleChange}
+                />
+                {errors.email && (
+                  <p className='text-red-500 text-[13px] text-center'>
+                    {errors.email}
+                  </p>
+                )}
+                <Input
+                  type='text'
+                  placeholder='Phone Number'
+                  name='phoneNumber'
+                  value={data.phoneNumber}
+                  onChange={handleChange}
+                />
+                {errors.phoneNumber && (
+                  <p className='text-red-500 text-[13px] text-center'>
+                    {errors.phoneNumber}
+                  </p>
+                )}
+                <Input
+                  type='password'
+                  placeholder='Password'
+                  name='password'
+                  value={data.password}
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                  <p className='text-red-500 text-[13px] text-center'>
+                    {errors.password}
+                  </p>
+                )}
+                <Button
+                  type='submit'
+                  title={isPending ? 'Registering...' : 'Register'}
+                  disabled={isPending}
+                  className='bg-[#485696] w-full hover:bg-[green]'
+                />
+                <p className='text-[#333333] text-center text-[13px] mt-3'>
+                  Already have an account?{' '}
+                  <Link href='/login'>
+                    <span
+                      style={{
+                        color: '#FC7A1E',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Log In
+                    </span>
+                  </Link>
+                </p>
+              </form>
+              {toastMessage && (
+                <Toast
+                  message={toastMessage.message}
+                  type={toastMessage.type}
+                  onClose={() => setToastMessage(null)}
+                />
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
