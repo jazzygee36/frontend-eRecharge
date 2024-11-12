@@ -148,7 +148,7 @@ const Login = () => {
             />
           )}
           <div className='grid grid-cols-1 md:grid-cols-2 items-center mt-2'>
-            <Link href={'/reset-password'}>
+            <Link href={'/request-reset-password'}>
               <div className='font-medium text-[#FC7A1E] text-[13px]'>
                 Forget password?
               </div>

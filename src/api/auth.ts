@@ -19,12 +19,14 @@ interface Login {
 
 interface RequestPwdReset {
   email: string;
-  newPassword: string;
-  access_token?: string;
+
+  // access_token?: string;
 }
 
 interface ResetPassword {
-  password: string;
+  token: string;
+  newPassword: string;
+  confirmPwd?: string;
   access_token?: string;
 }
 interface Utilities {

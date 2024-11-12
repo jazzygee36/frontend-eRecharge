@@ -12,7 +12,6 @@ import { z } from 'zod';
 
 const formSchema = z.object({
   email: z.string().min(3, 'Email required'),
-  newPassword: z.string().min(6, 'New Password required'),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -22,7 +21,7 @@ const ResetPassword = () => {
 
   // Add state to hold the phone number
 
-  const [data, setData] = useState<FormData>({ email: '', newPassword: '' });
+  const [data, setData] = useState<FormData>({ email: '' });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [toastMessage, setToastMessage] = useState<{
     message: string;
@@ -83,7 +82,7 @@ const ResetPassword = () => {
 
   return (
     <div className='flex items-center justify-center h-screen'>
-      <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
+      <div className='w-[90%] md:w-[50%] lg:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
         <h2 className='text-[12px] font-bold text-center mb-5 lg:mt-0 block md:hidden'>
           <span style={{ color: 'green', fontWeight: 700 }}>E-Recharge</span>
         </h2>
@@ -103,18 +102,7 @@ const ResetPassword = () => {
               {errors.email}
             </p>
           )}
-          <Input
-            name='newPassword'
-            type='text'
-            placeholder='Enter New Password'
-            value={data.newPassword} // Use the state variable here
-            onChange={handleChange} // Update the state when input changes
-          />
-          {errors.newPassword && (
-            <p className='text-red-500 text-[13px] text-center mb-3'>
-              {errors.newPassword}
-            </p>
-          )}
+
           <Button
             title={isPending ? 'Reseting Reset Password...' : 'Reset Password'}
             disabled={isPending}

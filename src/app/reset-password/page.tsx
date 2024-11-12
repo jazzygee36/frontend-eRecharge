@@ -10,10 +10,18 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { z } from 'zod';
 
-const formSchema = z.object({
-  password: z.string().min(3, 'Password required'),
-  confirmPwd: z.string().min(3, 'Password required'),
-});
+const formSchema = z
+  .object({
+    token: z.string().nonempty('Token is required'),
+    newPassword: z.string().min(6, 'Password must be at least 8 characters'),
+    confirmPwd: z
+      .string()
+      .min(6, 'Confirm Password must be at least 8 characters'),
+  })
+  .refine((data) => data.newPassword === data.confirmPwd, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'], // Error message will show up under confirmPassword
+  });
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -22,7 +30,11 @@ const ResetPassword = () => {
 
   // Add state to hold the phone number
 
-  const [data, setData] = useState<FormData>({ password: '', confirmPwd: '' });
+  const [data, setData] = useState<FormData>({
+    newPassword: '',
+    confirmPwd: '',
+    token: '',
+  });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [toastMessage, setToastMessage] = useState<{
     message: string;
@@ -82,7 +94,7 @@ const ResetPassword = () => {
   };
   return (
     <div className='flex items-center justify-center h-screen'>
-      <div className='w-[90%] md:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
+      <div className='w-[90%] md:w-[50%] lg:w-[30%] rounded-lg py-10 px-10 shadow-lg'>
         <h2 className='text-[12px] font-bold text-center mb-5 lg:mt-0 block md:hidden'>
           <span style={{ color: 'green', fontWeight: 700 }}>E-Recharge</span>
         </h2>
@@ -92,11 +104,11 @@ const ResetPassword = () => {
             name='password'
             type='text'
             placeholder='Enter new password'
-            value={data.password} // Use the state variable here
+            value={data.newPassword} // Use the state variable here
             onChange={handleChange} // Update the state when input changes
           />
-          {errors.password && (
-            <p className='text-red-500 text-[13px]'>{errors.password}</p>
+          {errors.newPassword && (
+            <p className='text-red-500 text-[13px]'>{errors.newPassword}</p>
           )}
           <Input
             name='confirmPwd'

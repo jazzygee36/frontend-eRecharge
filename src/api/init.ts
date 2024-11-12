@@ -8,7 +8,8 @@ export const getFromLocalStorage = (key: string) => {
 };
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: `https://etransact.vercel.app/api/`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
