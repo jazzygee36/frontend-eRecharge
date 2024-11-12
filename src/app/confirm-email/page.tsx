@@ -24,7 +24,9 @@ const ConfirmEmail = () => {
         <h1 className='font-bold text-center text-[20px] border rounded-lg py-3 my-5'>
           {email}
         </h1>
-        Click on the link to confirm that your email is real.
+        <p className='text-[14px] text-center'>
+          Click on the link to confirm that your email is real.
+        </p>
         <div>
           <p className='text-[#333333] mt-3 text-[13px] text-center'>
             Didnt receive the email?

@@ -13,7 +13,7 @@ import { z } from 'zod';
 const formSchema = z
   .object({
     token: z.string().nonempty('Token is required'),
-    newPassword: z.string().min(6, 'Password must be at least 8 characters'),
+    newPassword: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPwd: z
       .string()
       .min(6, 'Confirm Password must be at least 8 characters'),
@@ -101,7 +101,7 @@ const ResetPassword = () => {
         <h1 className='text-center text-[30px] font-bold'>Reset Password</h1>
         <form onSubmit={handleSubmit}>
           <Input
-            name='password'
+            name='newPassword'
             type='text'
             placeholder='Enter new password'
             value={data.newPassword} // Use the state variable here

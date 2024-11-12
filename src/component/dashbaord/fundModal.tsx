@@ -36,20 +36,15 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handlePaystackSuccessAction = async (data: { reference: string }) => {
     const reference = data.reference; // Extract reference from the object
-    console.log('Paystack callback triggered', reference);
+    console.log('Paystack callback triggered', reference, 'dataaaaa', data);
     try {
       const response = await axios.post(
-        `http://localhost:1000/api/verify-payment`,
+        `https://etransact.vercel.app/api/verify-payment`,
         {
           reference, // Send the reference directly to the API
-          amount,
         }
       );
-      console.log(
-        'Payment recorded successfully',
-        response.data,
-        'Payment recorded '
-      );
+
       // onClose();
     } catch (error) {
       console.log('Error recording payment:', error);
