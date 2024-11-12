@@ -36,6 +36,8 @@ interface Utilities {
   phone: string;
 }
 
+interface Profile {}
+
 interface FundWallet {
   reference: string;
   amount: number;
@@ -96,6 +98,14 @@ export const payUtiliies = async (body: Utilities) => {
 
 export const fundWallet = async (body: FundWallet) => {
   const { data } = await apiClient.post(QUERIES.VERIFYPAYMENT, body);
+
+  postToLocalStorage(data.access_token ?? '');
+
+  return data;
+};
+
+export const userProfile = async () => {
+  const { data } = await apiClient.get(QUERIES.USERPROFILE);
 
   postToLocalStorage(data.access_token ?? '');
 
