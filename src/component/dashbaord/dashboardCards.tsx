@@ -27,10 +27,13 @@ const DashboardCards = () => {
   const toggleToSeeMonthlyBalance = () => {
     setMonthlyExpenseBalance(!monthlyExpenseBalance);
   };
+  
   return (
     <div>
       {/* <h2 className='text-2xl font-bold text-left'>Welcome</h2> */}
+      <div className='flex justify-between items-center'>
       <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
+        </div>
 
       <div className='flex flex-col md:flex-row gap-4 justify-center items-center mt-4 md:mt-0 p-0 md:p-4'>
         {/* Wallet Balance Box */}

@@ -36,7 +36,7 @@ interface Utilities {
   phone: string;
 }
 
-interface Profile {}
+
 
 interface FundWallet {
   reference: string;
