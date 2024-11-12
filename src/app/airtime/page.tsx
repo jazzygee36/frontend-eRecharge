@@ -15,7 +15,6 @@ import { payUtiliies } from '@/api/auth';
 import Toast from '@/component/common/toast/toast';
 import BackIcon from '@/assets/icons/backIcon';
 import ConfirmModal from '@/component/common/paymentConfirmModal/confirmModal';
-import withAuth from '../hoc';
 
 const formSchema = z.object({
   phone: z.string().min(11, 'Phone number is required'),
@@ -223,4 +222,4 @@ const Airtime = () => {
   );
 };
 
-export default withAuth(Airtime);
+export default Airtime;

@@ -3,7 +3,6 @@
 import BackIcon from '@/assets/icons/backIcon';
 import Button from '@/component/common/button';
 import Input from '@/component/common/input';
-import withAuth from '../hoc';
 
 // import { useRouter } from 'next/router';
 
@@ -65,4 +64,4 @@ const BuyElectricity = () => {
   );
 };
 
-export default withAuth(BuyElectricity);
+export default BuyElectricity;
