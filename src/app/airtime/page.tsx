@@ -6,7 +6,7 @@ import MTN from '../../assets/airtime/mtn big.webp';
 import Airtel from '../../assets/airtime/airtelbig.jpg';
 import MNineMobile from '../../assets/airtime/9mobile-logo.jpg';
 import Glo from '../../assets/airtime/globig.jpg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { AxiosError } from 'axios';
@@ -15,6 +15,7 @@ import { payUtiliies } from '@/api/auth';
 import Toast from '@/component/common/toast/toast';
 import BackIcon from '@/assets/icons/backIcon';
 import ConfirmModal from '@/component/common/paymentConfirmModal/confirmModal';
+import { useUser } from '@/hooks';
 
 const formSchema = z.object({
   phone: z.string().min(11, 'Phone number is required'),
@@ -27,6 +28,9 @@ type FormData = z.infer<typeof formSchema>;
 
 const Airtime = () => {
   const queryClient = useQueryClient();
+  const { data: user } = useUser(true);
+  const userEmail = user?.profile?.email;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -71,7 +75,7 @@ const Airtime = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERIES.ME],
         });
-        openModal();
+        
       } else {
         setToastMessage({
           message: 'Error',
@@ -87,15 +91,12 @@ const Airtime = () => {
     },
   });
 
-  const handlePayment = () => {
-    const authorization_url = localStorage.getItem('authorization_url');
-    window.location.href = authorization_url as string;
-  };
-
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const parsedData = formSchema.safeParse(data);
+    const parsedData =  formSchema.safeParse(data);
+
     if (!parsedData.success) {
       const fieldErrors: { [key: string]: string } = {};
       parsedData.error.errors.forEach((error) => {
@@ -106,9 +107,20 @@ const Airtime = () => {
       setErrors(fieldErrors);
       return;
     }
-
-    mutate(parsedData.data);
+    // openModal()
+        mutate(parsedData.data);
   };
+
+  const handlePayment = () => {
+    const authorization_url = localStorage.getItem('authorization_url');
+    window.location.href = authorization_url as string;
+  };
+
+  useEffect(() => {
+    if (userEmail) {
+      setData((prevData) => ({ ...prevData, email: userEmail }));
+    }
+  }, [userEmail]);
 
   return (
     <div className='py-5 px-5 h-screen'>
@@ -186,12 +198,11 @@ const Airtime = () => {
           type='email'
           name='email'
           placeholder='Email'
-          value={data.email}
-          onChange={handleChange}
+          value={userEmail ?? ''}
+          // onChange={handleChange}
+          readOnly={true}
         />
-        {errors.email && (
-          <p className='text-red-500 text-[13px]'>{errors.email}</p>
-        )}
+       
 
         <Button
           title={isPending ? 'Continue...' : 'Continue'}
@@ -213,7 +224,7 @@ const Airtime = () => {
         onClose={closeModal}
         onClick={handlePayment}
         network={data.utilityType}
-        email={data.email}
+        email={userEmail}
         phone={data.phone}
         amount={data.amount}
         isPending={isPending}

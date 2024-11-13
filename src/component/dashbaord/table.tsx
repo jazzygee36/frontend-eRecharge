@@ -6,7 +6,7 @@ import BackIcon from '@/assets/icons/backIcon';
 const MonthlyExpenseTable = () => {
   const { data, isLoading, isError } = useUser(true);
 
-  console.log('dataaaa', data);
+ 
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -15,10 +15,13 @@ const MonthlyExpenseTable = () => {
   }, [data, isLoading, isError]);
 
   return (
-    <>
-      <div className='flex gap-3 mt-5 mb-5 items-center px-2'>
-        <BackIcon />
+    <div className='px-3'>
+      <div className='flex mt-5 mb-5 items-center justify-between'>
+       <div className='flex gap-2'>
+       <BackIcon />
         <h2>back</h2>
+       </div>
+       <h2 className='font-bold'>Transaction history</h2>
       </div>
       <div className='  overflow-x-auto mt-4 md:mt-0 p-0 md:p-4'>
         <table className='min-w-full bg-white border border-gray-300'>
@@ -29,7 +32,7 @@ const MonthlyExpenseTable = () => {
               <th className='py-2 px-4 border-b text-left'>Type</th>
               {/* <th className='py-2 px-4 border-b text-left'>Description</th> */}
               <th className='py-2 px-4 border-b text-left '>Reference</th>
-              <th className='py-2 px-4 border-b text-left '>Status</th>
+              <th className='py-2 px-4 border-b text-left  '>Status</th>
               {/* Hide Date on mobile, show on medium screens and larger */}
               <th className='py-2 px-4 border-b text-left '>Date</th>
             </tr>
@@ -47,7 +50,7 @@ const MonthlyExpenseTable = () => {
                   <td className='py-2 px-4 border-b'>
                     {item.transactionReference}
                   </td>
-                  <td className='py-2 px-4 border-b'>{item.status}</td>
+                  <td className='py-2 px-4 border-b text-[green]'>{item.status}</td>
 
                   <td className='py-2 px-4 border-b'>
                     {item.paymentDate
@@ -57,8 +60,9 @@ const MonthlyExpenseTable = () => {
                 </tr>
               ))
             ) : (
+              
               <tr>
-                <td colSpan={5} className='text-center py-4'>
+                <td colSpan={5} className='text-center py-10'>
                   No payments available fund your account
                 </td>
               </tr>
@@ -66,7 +70,7 @@ const MonthlyExpenseTable = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 

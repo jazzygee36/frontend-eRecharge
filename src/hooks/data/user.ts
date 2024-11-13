@@ -20,6 +20,7 @@ export const useUser = (
         throw error; // Re-throw to ensure react-query handles it as a failed query
       }
     },
+    
   });
 
   return query;

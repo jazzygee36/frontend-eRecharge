@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FundModal from './fundModal';
 import { useUser } from '@/hooks';
 import UserIcon from '@/assets/icons/userIcon';

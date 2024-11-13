@@ -4,6 +4,9 @@ import Button from '../common/button';
 import Input from '../common/input';
 import Toast from '../common/toast/toast';
 import axios from 'axios';
+import { useUser } from '@/hooks';
+import { QUERIES } from '@/utils';
+import { useQueryClient, } from '@tanstack/react-query';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,48 +14,50 @@ interface ModalProps {
 }
 
 const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const queryKey: string[] | [] | number| any = [QUERIES.ME];
+  const queryClient = useQueryClient();
+  const { data, refetch } = useUser(true); // Refetch to get latest data if needed
+  const userEmail = data?.profile?.email;
+
   const [amount, setAmount] = useState('');
   const [showPaystack, setShowPaystack] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only numeric input (including decimal point)
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-      setAmount(value); // Update the amount state if valid number
+      setAmount(value);
     }
   };
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (parseFloat(amount) > 500) {
       onClose();
-      setShowPaystack(true); // Only show Paystack if amount is valid
+      setShowPaystack(true);
     } else {
       setIsToastVisible(true);
     }
   };
 
   const handlePaystackSuccessAction = async (data: { reference: string }) => {
-    const reference = data.reference; // Extract reference from the object
-    
+    setLoading(true); // Start loading when payment verification begins
+    const reference = data.reference;
     try {
-      await axios.post(
-        `https://etransact.vercel.app/api/verify-payment`,
-        {
-          reference, 
-        }
-      );
-
-      // onClose();
+      await axios.post(`https://etransact.vercel.app/api/verify-payment`, { reference });
+      await queryClient.invalidateQueries(queryKey); // Refresh user data
+      setPaymentSuccess(true); // Show success toast
+      setLoading(false); // Stop loading
     } catch (error) {
       console.log('Error recording payment:', error);
+      setLoading(false); // Stop loading on error
     }
   };
 
   const handlePaystackCloseAction = () => {
-    console.log('closed'); // Handle Paystack dialog close
+    console.log('closed');
   };
 
   const loadPaystackScript = () => {
@@ -60,11 +65,10 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       try {
         const handler = window.PaystackPop.setup({
           key: 'pk_test_bb303c70de3d313ccf557c37b226540818e7fc03',
-          email: 'user@example.com',
-          amount: parseFloat(amount) * 100, // Convert amount to float for Paystack
+          email: userEmail,
+          amount: parseFloat(amount) * 100,
           ref: new Date().getTime().toString(),
-          callback: (data: { reference: string }) =>
-            handlePaystackSuccessAction(data), // Pass the object to the callback
+          callback: (data: { reference: string }) => handlePaystackSuccessAction(data),
           onClose: handlePaystackCloseAction,
         });
         handler.openIframe();
@@ -81,13 +85,8 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     script.src = 'https://js.paystack.co/v1/inline.js';
     script.async = true;
 
-    script.onload = () => {
-      console.log('Paystack script loaded successfully');
-    };
-
-    script.onerror = () => {
-      console.log('Error loading Paystack script');
-    };
+    script.onload = () => console.log('Paystack script loaded successfully');
+    script.onerror = () => console.log('Error loading Paystack script');
 
     document.body.appendChild(script);
 
@@ -98,7 +97,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (showPaystack) {
-      loadPaystackScript(); // Load Paystack script and show the payment modal
+      loadPaystackScript();
     }
   }, [showPaystack]);
 
@@ -110,37 +109,26 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <div className='relative w-[90%] max-w-md p-6 mx-auto bg-white rounded-lg shadow-lg'>
           <div className='flex justify-between items-center'>
             <h1 className='font-bold'>Fund Wallet</h1>
-            <button
-              className='text-gray-400 hover:text-gray-600'
-              onClick={onClose}
-            >
-              ✕
-            </button>
+            <button className='text-gray-400 hover:text-gray-600' onClick={onClose}>✕</button>
           </div>
           <div className='mt-4'>
             <form onSubmit={handleContinue}>
-              <Input
-                type='number'
-                placeholder='Amount'
-                value={amount}
-                onChange={handleAmountChange}
-              />
+              <Input type='number' placeholder='Amount' value={amount} onChange={handleAmountChange} />
               <Button
-                title='Continue'
-                className={`bg-[#485696] $ w-full mt-4 text-white`}
-                type={'submit'}
-                // disabled={amount.length < 500}
+                title={loading ? 'Processing...' : 'Continue'}
+                className={`bg-[#485696] w-full mt-4 text-white`}
+                type='submit'
+                disabled={loading} // Disable button during loading
               />
             </form>
           </div>
         </div>
       </div>
       {isToastVisible && (
-        <Toast
-          message={'Amount cannot be less than 1000'}
-          type='error' // You can change this to success, info, etc.
-          onClose={() => setIsToastVisible(false)}
-        />
+        <Toast message='Amount cannot be less than 1000' type='error' onClose={() => setIsToastVisible(false)} />
+      )}
+      {paymentSuccess && (
+        <Toast message='Payment successful!' type='success' onClose={() => setPaymentSuccess(false)} />
       )}
     </>
   );
