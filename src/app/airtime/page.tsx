@@ -33,7 +33,7 @@ const Airtime = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
+  // const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [data, setData] = useState<FormData>({
     phone: '',

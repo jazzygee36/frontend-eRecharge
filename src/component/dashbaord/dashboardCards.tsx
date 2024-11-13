@@ -3,6 +3,11 @@ import FundModal from './fundModal';
 import { useUser } from '@/hooks';
 import UserIcon from '@/assets/icons/userIcon';
 
+
+type Payment = {
+  amount: number;
+};
+
 const DashboardCards = () => {
   const { data } = useUser(true);
 
@@ -30,9 +35,9 @@ const DashboardCards = () => {
   };
 
   const totalAmount = data?.profile?.payments?.reduce(
-    (sum: any, payment: any) => sum + payment.amount,
+    (sum: number, payment: Payment) => sum + payment.amount,
     0
-  );
+  ) || 0;  // Adding fallback for totalAmount if data is undefined
   const convertToKobo = totalAmount / 100;
   return (
     <div>

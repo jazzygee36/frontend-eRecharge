@@ -5,8 +5,6 @@ import Input from '../common/input';
 import Toast from '../common/toast/toast';
 import axios from 'axios';
 import { useUser } from '@/hooks';
-import { QUERIES } from '@/utils';
-import { useQueryClient, } from '@tanstack/react-query';
 
 interface ModalProps {
   isOpen: boolean;
@@ -14,9 +12,8 @@ interface ModalProps {
 }
 
 const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const queryKey: string[] | [] | number| any = [QUERIES.ME];
-  const queryClient = useQueryClient();
-  const { data, refetch } = useUser(true); // Refetch to get latest data if needed
+ 
+  const { data } = useUser(true); // Refetch to get latest data if needed
   const userEmail = data?.profile?.email;
 
   const [amount, setAmount] = useState('');
@@ -47,7 +44,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const reference = data.reference;
     try {
       await axios.post(`https://etransact.vercel.app/api/verify-payment`, { reference });
-      await queryClient.invalidateQueries(queryKey); // Refresh user data
+     
       setPaymentSuccess(true); // Show success toast
       setLoading(false); // Stop loading
     } catch (error) {
