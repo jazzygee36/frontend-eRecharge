@@ -5,7 +5,7 @@ interface Signup {
   username: string;
   email: string;
   password: string;
-  confirmPwd: string;
+  confirmPwd?: string;
   phoneNumber: string;
   access_token?: string;
 }
