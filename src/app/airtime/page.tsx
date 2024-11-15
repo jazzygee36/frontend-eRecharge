@@ -29,7 +29,7 @@ type FormData = z.infer<typeof formSchema>;
 const Airtime = () => {
   const queryClient = useQueryClient();
   const { data: user } = useUser(true);
-  const userEmail = user?.profile?.email;
+  const userEmail = user?.profile?.userId?.email;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -73,9 +73,8 @@ const Airtime = () => {
         localStorage.setItem('authorization_url', authorization_url);
 
         queryClient.invalidateQueries({
-          queryKey: [QUERIES.ME],
+          queryKey: [QUERIES.USERPROFILE],
         });
-        
       } else {
         setToastMessage({
           message: 'Error',
@@ -91,11 +90,10 @@ const Airtime = () => {
     },
   });
 
- 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const parsedData =  formSchema.safeParse(data);
+    const parsedData = formSchema.safeParse(data);
 
     if (!parsedData.success) {
       const fieldErrors: { [key: string]: string } = {};
@@ -108,7 +106,7 @@ const Airtime = () => {
       return;
     }
     // openModal()
-        mutate(parsedData.data);
+    mutate(parsedData.data);
   };
 
   const handlePayment = () => {
@@ -202,7 +200,6 @@ const Airtime = () => {
           // onChange={handleChange}
           readOnly={true}
         />
-       
 
         <Button
           title={isPending ? 'Continue...' : 'Continue'}

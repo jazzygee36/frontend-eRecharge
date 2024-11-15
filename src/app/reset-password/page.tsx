@@ -53,7 +53,7 @@ const ResetPassword = () => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: [QUERIES.ME],
+        queryKey: [QUERIES.USERPROFILE],
       });
       // Additional logic for post-registration
 
