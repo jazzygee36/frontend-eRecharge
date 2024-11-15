@@ -55,6 +55,7 @@ interface UserId {
   username: string;
   email: string;
   phoneNumber: string;
+  _id: string;
 }
 interface Profile {
   userId?: UserId;

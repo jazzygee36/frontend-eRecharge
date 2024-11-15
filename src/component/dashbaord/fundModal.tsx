@@ -17,6 +17,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const { data } = useUser(true);
   const userEmail = data?.profile?.userId?.email;
+  const userId = data?.profile?.userId?._id;
 
   const [amount, setAmount] = useState('');
   const [showPaystack, setShowPaystack] = useState(false);
@@ -43,10 +44,13 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handlePaystackSuccessAction = async (data: { reference: string }) => {
     const reference = data.reference; // Extract reference from the object
+
     console.log('reference', reference);
+    console.log('UserId', userId);
     try {
       await axios.post(`https://etransact.vercel.app/api/verify-payment`, {
         reference,
+        userId,
       });
       queryClient.invalidateQueries({ queryKey: [QUERIES.USERPROFILE] });
 
@@ -68,7 +72,7 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           email: userEmail,
           amount: parseFloat(amount) * 100, // Convert amount to float for Paystack
           ref: new Date().getTime().toString(),
-          callback: (data: { reference: string }) =>
+          callback: (data: { reference: string; userId: string }) =>
             handlePaystackSuccessAction(data), // Pass the object to the callback
           onClose: handlePaystackCloseAction,
         });
