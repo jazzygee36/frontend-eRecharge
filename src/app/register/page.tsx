@@ -12,12 +12,24 @@ import { QUERIES } from '@/utils';
 import { AxiosError } from 'axios';
 import Loading from '@/component/common/loading/loading';
 
-const formSchema = z.object({
-  username: z.string().min(3, 'Username should be at least 3 characters long'),
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password should be at least 6 characters long'),
-  phoneNumber: z.string().length(11, 'Phone number should be 11 characters'),
-});
+const formSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, 'Username should be at least 3 characters long'),
+    email: z.string().email('Invalid email address'),
+    password: z
+      .string()
+      .min(6, 'Password should be at least 6 characters long'),
+    confirmPwd: z
+      .string()
+      .min(6, 'Confirm password should be at least 6 characters long'),
+    phoneNumber: z.string().length(11, 'Phone number should be 11 characters'),
+  })
+  .refine((data) => data.password === data.confirmPwd, {
+    message: 'Passwords do not match',
+    path: ['confirmPwd'], // Error message will show up under confirmPassword
+  });
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -29,6 +41,7 @@ const Register = () => {
     password: '',
     email: '',
     phoneNumber: '',
+    confirmPwd: '',
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -164,6 +177,18 @@ const Register = () => {
                 {errors.password && (
                   <p className='text-red-500 text-[13px] text-center'>
                     {errors.password}
+                  </p>
+                )}
+                <Input
+                  type='password'
+                  placeholder='Confirm Password'
+                  name='confirmPwd'
+                  value={data.confirmPwd}
+                  onChange={handleChange}
+                />
+                {errors.confirmPwd && (
+                  <p className='text-red-500 text-[13px] text-center'>
+                    {errors.confirmPwd}
                   </p>
                 )}
                 <Button
