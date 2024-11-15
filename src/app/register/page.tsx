@@ -30,7 +30,6 @@ const Register = () => {
     email: '',
     phoneNumber: '',
   });
-  console.log('email', data.email);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [toastMessage, setToastMessage] = useState<{
