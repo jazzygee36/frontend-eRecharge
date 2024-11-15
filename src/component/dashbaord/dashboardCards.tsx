@@ -8,7 +8,7 @@ type Payment = {
 };
 
 const DashboardCards = () => {
-  const { data, error, isLoading } = useUser();
+  const { data } = useUser();
 
   const [isToggledWallet, setIsToggledWallet] = useState(false);
   const [isToggledExpense, setIsToggledExpense] = useState(false);
