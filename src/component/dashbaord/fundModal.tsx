@@ -8,7 +8,6 @@ import { useUser } from '@/hooks';
 import { QUERIES } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 
-
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -17,8 +16,8 @@ interface ModalProps {
 const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const queryClient = useQueryClient();
   const { data } = useUser(true);
-  const userEmail = data?.profile?.email
-  
+  const userEmail = data?.profile?.userId?.email;
+
   const [amount, setAmount] = useState('');
   const [showPaystack, setShowPaystack] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -44,16 +43,13 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const handlePaystackSuccessAction = async (data: { reference: string }) => {
     const reference = data.reference; // Extract reference from the object
-    
+    console.log('reference', reference);
     try {
-      await axios.post(
-        `https://etransact.vercel.app/api/verify-payment`,
-        {
-          reference, 
-        }
-      );
-      queryClient.invalidateQueries({ queryKey: [QUERIES.ME] });
-     
+      await axios.post(`https://etransact.vercel.app/api/verify-payment`, {
+        reference,
+      });
+      queryClient.invalidateQueries({ queryKey: [QUERIES.USERPROFILE] });
+
       // onClose();
     } catch (error) {
       console.log('Error recording payment:', error);
@@ -110,7 +106,6 @@ const FundModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       loadPaystackScript(); // Load Paystack script and show the payment modal
     }
   }, [showPaystack]);
-  
 
   if (!isOpen) return null;
 

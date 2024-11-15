@@ -10,5 +10,5 @@ export const QUERIES = {
   PAYUTILITIES: '/pay-topup',
   PAYMENTCALLBACK: '/payment-callback',
   VERIFYPAYMENT: '/verify-payment',
-  ME: '/profile',
+  USERPROFILE: '/profile',
 };

@@ -50,10 +50,13 @@ interface Payment {
   transactionReference: string;
 }
 
-interface Profile {
+interface UserId {
   username: string;
   email: string;
   phoneNumber: string;
+}
+interface Profile {
+  userId?: UserId;
   payments: Payment[] | undefined;
 }
 export interface User {
@@ -123,11 +126,11 @@ export const fundWallet = async (body: FundWallet) => {
 
   return data;
 };
-
 export const getUser = async () => {
-  const { data } = await apiClient.get(QUERIES.ME);
+  const { data } = await apiClient.get(QUERIES.USERPROFILE);
   return data || {};
 };
+
 export const paymentCallBack = async () => {
   const { data } = await apiClient.get(QUERIES.PAYMENTCALLBACK);
   return data || {};

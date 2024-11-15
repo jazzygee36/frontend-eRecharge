@@ -53,7 +53,7 @@ const Login = () => {
 
         // Invalidate queries to refresh data
         queryClient.invalidateQueries({
-          queryKey: [QUERIES.ME],
+          queryKey: [QUERIES.USERPROFILE],
         });
 
         // Delay before redirecting to dashboard to allow loading spinner to render

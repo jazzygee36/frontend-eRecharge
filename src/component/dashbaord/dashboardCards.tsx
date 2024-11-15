@@ -3,13 +3,12 @@ import FundModal from './fundModal';
 import { useUser } from '@/hooks';
 import UserIcon from '@/assets/icons/userIcon';
 
-
 type Payment = {
   amount: number;
 };
 
 const DashboardCards = () => {
-  const { data } = useUser(true);
+  const { data, error, isLoading } = useUser();
 
   const [isToggledWallet, setIsToggledWallet] = useState(false);
   const [isToggledExpense, setIsToggledExpense] = useState(false);
@@ -34,17 +33,18 @@ const DashboardCards = () => {
     setMonthlyExpenseBalance(!monthlyExpenseBalance);
   };
 
-  const totalAmount = data?.profile?.payments?.reduce(
-    (sum: number, payment: Payment) => sum + payment.amount,
-    0
-  ) || 0;  // Adding fallback for totalAmount if data is undefined
+  const totalAmount =
+    data?.profile?.payments?.reduce(
+      (sum: number, payment: Payment) => sum + payment.amount,
+      0
+    ) || 0; // Adding fallback for totalAmount if data is undefined
   const convertToKobo = totalAmount / 100;
   return (
     <div>
       <div className='flex justify-between items-center'>
         <h2 className='text-xl font-bold text-[green]'>e-Recharge</h2>
         <div className=' mr-7 flex gap-2 '>
-          <h2 className='capitalize'>{data?.profile?.username}</h2>
+          <h2 className='capitalize'>{data?.profile?.userId?.username}</h2>
           <UserIcon />
         </div>
       </div>
