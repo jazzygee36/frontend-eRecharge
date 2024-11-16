@@ -18,7 +18,7 @@ import ConfirmModal from '@/component/common/paymentConfirmModal/confirmModal';
 import { useUser } from '@/hooks';
 
 const formSchema = z.object({
-  phone: z.string().min(11, 'Phone number is required'),
+  phone: z.string().min(11, 'Phone number is  required'),
   utilityType: z.string().min(3, 'Select network'),
   email: z.string().min(3, 'Email is required'),
   amount: z.string().min(3, 'Amount is required'),
@@ -31,10 +31,10 @@ const Airtime = () => {
   const { data: user } = useUser(true);
   const userEmail = user?.profile?.userId?.email;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  // const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModal = () => setIsConfirmModalOpen(true);
+  const closeConfirmModal = () => setIsConfirmModalOpen(false);
   const [data, setData] = useState<FormData>({
     phone: '',
     email: '',
@@ -105,13 +105,13 @@ const Airtime = () => {
       setErrors(fieldErrors);
       return;
     }
-    // openModal()
-    mutate(parsedData.data);
+    openModal();
+    // mutate(parsedData.data);
   };
 
   const handlePayment = () => {
     const authorization_url = localStorage.getItem('authorization_url');
-    window.location.href = authorization_url as string;
+    // window.location.href = authorization_url as string;
   };
 
   useEffect(() => {
@@ -217,9 +217,8 @@ const Airtime = () => {
         />
       )}
       <ConfirmModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onClick={handlePayment}
+        isOpen={isConfirmModalOpen}
+        onClose={closeConfirmModal}
         network={data.utilityType}
         email={userEmail}
         phone={data.phone}
