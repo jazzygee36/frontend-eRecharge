@@ -9,7 +9,6 @@ import Glo from '../../assets/airtime/globig.jpg';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { AxiosError } from 'axios';
 import { QUERIES } from '@/utils';
 import { payUtiliies } from '@/api/auth';
 import Toast from '@/component/common/toast/toast';
@@ -82,12 +81,12 @@ const Airtime = () => {
         });
       }
     },
-    onError: (error: AxiosError<{ message: string }>) => {
-      const errorMessage =
-        error?.response?.data?.message || 'Error during login';
-      setToastMessage({ message: errorMessage, type: 'error' });
-      console.log(error);
-    },
+    // onError: (error: AxiosError<{ message: string }>) => {
+    //   const errorMessage =
+    //     error?.response?.data?.message || 'Error during login';
+    //   setToastMessage({ message: errorMessage, type: 'error' });
+    //   console.log(error);
+    // },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -106,12 +105,7 @@ const Airtime = () => {
       return;
     }
     openModal();
-    // mutate(parsedData.data);
-  };
-
-  const handlePayment = () => {
-    const authorization_url = localStorage.getItem('authorization_url');
-    // window.location.href = authorization_url as string;
+    mutate(parsedData.data);
   };
 
   useEffect(() => {

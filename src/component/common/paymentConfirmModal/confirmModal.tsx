@@ -7,7 +7,6 @@ import SuccessModal from '../successModal';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-
   network?: string;
   email?: string;
   phone?: string;
@@ -18,24 +17,23 @@ interface ModalProps {
 const ConfirmModal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
-
   network,
   email,
   phone,
   amount,
   isPending,
 }) => {
-  if (!isOpen) return null;
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openSuccessModal = () => setIsSuccessModalOpen(true);
+  const closeSuccessModal = () => setIsSuccessModalOpen(false);
 
   const handleBuyAirtime = () => {
-    // closeConfirmModal();
-    openModal();
+    // Simulate buy airtime logic here, handle success or failure
+    openSuccessModal();
   };
+
+  if (!isOpen) return null;
 
   return (
     <>
@@ -46,45 +44,42 @@ const ConfirmModal: React.FC<ModalProps> = ({
             <button
               className='text-gray-400 hover:text-gray-600'
               onClick={onClose}
+              aria-label='Close'
             >
               ✕
             </button>
           </div>
           <div className='mt-7 flex justify-between'>
-            <div className='font-normal'>Network</div>
-            <div className='font-semibold capitalize'>{network}</div>
+            <span className='font-normal'>Network</span>
+            <span className='font-semibold capitalize'>{network}</span>
           </div>
           <hr className='mt-3' />
           <div className='mt-4 flex justify-between'>
-            <div className='font-normal'>Phone number</div>
-            <div className='font-semibold'>{phone}</div>
+            <span className='font-normal'>Phone number</span>
+            <span className='font-semibold'>{phone}</span>
           </div>
           <hr className='mt-3' />
-
           <div className='mt-4 flex justify-between'>
-            <div className='font-normal'>Amount</div>
-            <div className=' font-semibold'>{amount}</div>
+            <span className='font-normal'>Amount</span>
+            <span className='font-semibold'>{amount}</span>
           </div>
           <hr className='mt-3' />
-
           <div className='mt-4 flex justify-between'>
-            <div className='font-normal'>Email</div>
-            <div className='font-semibold'>{email}</div>
+            <span className='font-normal'>Email</span>
+            <span className='font-semibold'>{email}</span>
           </div>
-
           <Button
-            // title={'Pay'}
-            title={isPending ? 'Buy...' : 'Buy'}
+            title={isPending ? 'Processing...' : 'Buy'}
             disabled={isPending}
-            className={'bg-[#485696] w-full mt-8'}
-            type={'button'}
+            className='bg-[#485696] w-full mt-8'
+            type='button'
             onClick={handleBuyAirtime}
           />
         </div>
       </div>
       <SuccessModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
+        isOpen={isSuccessModalOpen}
+        onClose={closeSuccessModal}
         amount={amount}
         network={network}
         phone={phone}
