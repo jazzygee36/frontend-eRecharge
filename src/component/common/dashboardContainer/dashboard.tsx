@@ -53,7 +53,7 @@ const Sidebar = () => {
       {/* Toggle Button at the Top */}
       <button
         onClick={toggleSidebar}
-        className='fixed top-4 right-4 p-1 text-green rounded-md z-30 md:hidden'
+        className='fixed top-3 right-4 p-1 text-green rounded-md z-30 md:hidden'
       >
         ☰ {/* Icon for the menu */}
       </button>
@@ -61,7 +61,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div
         ref={sidebarRef}
-        className={`fixed inset-y-0 left-0 z-20 w-[40%] md:w-[15%] bg-[#EBEEF1] text-[#4C3B4D] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 left-0 z-20 w-[50%] md:w-[17%] bg-[#EBEEF1] text-[#4C3B4D] transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:relative md:flex-shrink-0`}
       >
@@ -121,7 +121,7 @@ const Sidebar = () => {
       </div>
 
       {/* Main Content */}
-      <div className='flex-1 p-4'>
+      <div className='flex-1 p-4 px-4 md:px-10'>
         <MainDashboard />
       </div>
     </div>
