@@ -38,7 +38,13 @@ const DashboardCards = () => {
       (sum: number, payment: Payment) => sum + payment.amount,
       0
     ) || 0; // Adding fallback for totalAmount if data is undefined
-  const convertToKobo = totalAmount / 100;
+  const convertToKobo = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(totalAmount / 100);
+
   return (
     <div>
       <div className='flex justify-between items-center'>
@@ -55,7 +61,7 @@ const DashboardCards = () => {
           <h2 className='text-xl font-bold text-white'>Wallet Balance</h2>
           {walletBalance ? (
             <p className='text-2xl font-semibold mt-2 text-white'>
-              N{convertToKobo}
+              {convertToKobo}
             </p>
           ) : (
             <p className='text-2xl font-semibold mt-2 text-white'>******</p>
