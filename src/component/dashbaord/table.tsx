@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@/hooks';
 import BackIcon from '@/assets/icons/backIcon';
@@ -87,26 +88,26 @@ const MonthlyExpenseTable = () => {
             )}
           </tbody>
         </table>
-        {/* Pagination Controls */}
-        <div className='flex justify-between items-center mt-4'>
-          <button
-            className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-          >
-            Previous
-          </button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'
-            disabled={currentPage === totalPages}
-            onClick={() => handlePageChange(currentPage + 1)}
-          >
-            Next
-          </button>
-        </div>
+      </div>
+      {/* Pagination Controls */}
+      <div className='flex justify-between items-center mt-4'>
+        <button
+          className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
